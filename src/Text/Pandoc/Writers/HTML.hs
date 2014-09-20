@@ -786,12 +786,19 @@ inlineToHtml opts inline =
                         return $ case writerEpubVersion opts of
                                       Just EPUB3 -> link ! customAttribute "epub:type" "noteref"
                                       _          -> link
-    (Cite cits il)-> do contents <- inlineListToHtml opts il
-                        let citationIds = unwords $ map citationId cits
-                        let result = H.span ! A.class_ "citation" $ contents
-                        return $ if writerHtml5 opts
-                                    then result ! customAttribute "data-cites" (toValue citationIds)
-                                    else result
+    (Cite cits il)-> do let classes (_, cls, _) = cls
+                        let spansToLinks ((Span attrs inl):xs) cIds =
+                              if "ref-contributor" `elem` (classes attrs)
+                                 then Link inl ("#ref-" ++ head cIds, "") : (spansToLinks xs $ tail cIds)
+                                 else (Span attrs inl) : (spansToLinks xs cIds)
+                            spansToLinks (x:xs) cIds = x:(spansToLinks xs cIds)
+                            spansToLinks [] _        = []
+                        let citationIds = map citationId cits
+                        let il' = if length citationIds > 1
+                                     then spansToLinks il citationIds
+                                     else [Link il ("#ref-" ++ head citationIds, "")]
+                        contents <- inlineListToHtml opts il'
+                        return $ H.span ! A.class_ "citation" $ contents
 
 blockListToNote :: WriterOptions -> String -> [Block] -> State WriterState Html
 blockListToNote opts ref blocks =
