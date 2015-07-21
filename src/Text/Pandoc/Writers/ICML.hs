@@ -83,7 +83,8 @@ tableCaptionName  :: String
 alignLeftName     :: String
 alignRightName    :: String
 alignCenterName   :: String
-firstListItemName :: String
+firstName         :: String
+lastName          :: String
 beginsWithName    :: String
 lowerRomanName    :: String
 upperRomanName    :: String
@@ -105,7 +106,8 @@ tableCaptionName  = "TableCaption"
 alignLeftName     = "LeftAlign"
 alignRightName    = "RightAlign"
 alignCenterName   = "CenterAlign"
-firstListItemName = "first"
+firstName         = "first"
+lastName          = "last"
 beginsWithName    = "beginsWith-"
 lowerRomanName    = "lowerRoman"
 upperRomanName    = "upperRoman"
@@ -138,12 +140,21 @@ writeICML opts (Pandoc meta blocks) =
          then renderTemplate' (writerTemplate opts) context
          else main
 
--- | Auxilary functions for parStylesToDoc and charStylesToDoc.
+-- | Auxilary function for parStylesToDoc and charStylesToDoc.
 contains :: String -> (String, (String, String)) -> [(String, String)]
 contains s rule =
   if isInfixOf (fst rule) s
      then [snd rule]
      else []
+
+-- | Auxilary function to apply `first` and `last` styles.
+firstAndLast :: (Style -> t -> WS Doc) -> Style -> [t] -> [WS Doc]
+firstAndLast _ _ [] = []
+firstAndLast f style (l:ls) = f (firstName:style) l : go ls
+  where
+    go [] = []
+    go (x:[]) = [f (lastName:style) x]
+    go (x:xs) = f style x : go xs
 
 -- | The monospaced font to use as default.
 monospacedFont :: Doc
@@ -282,15 +293,17 @@ blocksToICML opts style lst = vcat `fmap` mapM (blockToICML opts style) lst
 -- | Convert a Pandoc block element to ICML.
 blockToICML :: WriterOptions -> Style -> Block -> WS Doc
 blockToICML opts style (Plain lst) = parStyle opts style lst
-blockToICML opts style (Para lst) = parStyle opts (paragraphName:style) lst
+blockToICML opts style (Para lst)  = parStyle opts (paragraphName:style) lst
 blockToICML opts style (CodeBlock _ str) = parStyle opts (codeBlockName:style) $ [Str str]
 blockToICML _ _ (RawBlock f str)
   | f == Format "icml" = return $ text str
   | otherwise          = return empty
-blockToICML opts style (BlockQuote blocks) = blocksToICML opts (blockQuoteName:style) blocks
+blockToICML opts style (BlockQuote blocks) =
+  fmap vcat $ sequence $ firstAndLast (blockToICML opts) (blockQuoteName:style) blocks
 blockToICML opts style (OrderedList attribs lst) = listItemsToICML opts orderedListName style (Just attribs) lst
 blockToICML opts style (BulletList lst) = listItemsToICML opts bulletListName style Nothing lst
-blockToICML opts style (DefinitionList lst) = vcat `fmap` mapM (definitionListItemToICML opts style) lst
+blockToICML opts style (DefinitionList lst) =
+  fmap vcat $ sequence $ firstAndLast (definitionListItemToICML opts) style lst
 blockToICML opts style (Header lvl _ lst) =
   let stl = (headerName ++ show lvl):style
   in parStyle opts stl lst
@@ -345,21 +358,19 @@ blockToICML _ _ Null = return empty
 -- | Convert a list of lists of blocks to ICML list items.
 listItemsToICML :: WriterOptions -> String -> Style -> Maybe ListAttributes -> [[Block]] -> WS Doc
 listItemsToICML _ _ _ _ [] = return empty
-listItemsToICML opts listType style attribs (first:rest) = do
+listItemsToICML opts listType style attribs ls = do
   st <- get
   put st{ listDepth = 1 + listDepth st}
-  let stl = listType:style
-  let f = listItemToICML opts stl True attribs first
-  let r = map (listItemToICML opts stl False attribs) rest
-  docs <- sequence $ f:r
+  let toListItem = listItemToICML opts attribs
+  docs <- sequence $ firstAndLast toListItem (listType:style) ls
   s    <- get
   let maxD = max (maxListDepth s) (listDepth s)
   put s{ listDepth = 1, maxListDepth = maxD }
   return $ vcat docs
 
 -- | Convert a list of blocks to ICML list items.
-listItemToICML :: WriterOptions -> Style -> Bool-> Maybe ListAttributes -> [Block] -> WS Doc
-listItemToICML opts style isFirst attribs item =
+listItemToICML :: WriterOptions -> Maybe ListAttributes -> Style -> [Block] -> WS Doc
+listItemToICML opts attribs style item =
   let makeNumbStart (Just (beginsWith, numbStl, _)) =
         let doN DefaultStyle = []
             doN LowerRoman = [lowerRomanName]
@@ -372,23 +383,22 @@ listItemToICML opts style isFirst attribs item =
                     else []
         in  doN numbStl ++ bw
       makeNumbStart Nothing = []
-      stl = if isFirst
-               then firstListItemName:style
-               else style
-      stl' = makeNumbStart attribs ++ stl
+      stl = makeNumbStart attribs ++ style
   in  if length item > 1
          then do
            let insertTab (Para lst) = blockToICML opts (subListParName:style) $ Para $ (Str "\t"):lst
                insertTab block      = blockToICML opts style block
-           f <- blockToICML opts stl' $ head item
+           f <- blockToICML opts stl $ head item
            r <- fmap vcat $ mapM insertTab $ tail item
            return $ f $$ r
-         else blocksToICML opts stl' item
+         else blocksToICML opts stl item
 
 definitionListItemToICML :: WriterOptions -> Style -> ([Inline],[[Block]]) -> WS Doc
 definitionListItemToICML opts style (term,defs) = do
-  term' <- parStyle opts (defListTermName:style) term
-  defs' <- vcat `fmap` mapM (blocksToICML opts (defListDefName:style)) defs
+  let insSnd new [] = [new]
+      insSnd new (x:xs) = x : (new : xs)
+  term' <- parStyle opts (insSnd defListTermName style) term
+  defs' <- vcat `fmap` mapM (blocksToICML opts (insSnd defListDefName style)) defs
   return $ term' $$ defs'
 
 
@@ -460,8 +470,9 @@ parStyle opts style lst =
       stl    = if null stlStr
                   then ""
                   else "ParagraphStyle/" ++ stlStr
+      isList = orderedListName `elem` style || bulletListName `elem` style
       attrs  = ("AppliedParagraphStyle", stl)
-      attrs' =  if firstListItemName `elem` style
+      attrs' =  if isList && firstName `elem` style
                    then let ats = attrs : [("NumberingContinue", "false")]
                             begins = filter (isPrefixOf beginsWithName) style
                         in  if null begins

@@ -85,7 +85,7 @@
           <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
         </Properties>
       </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/Blockquote &gt; Blockquote &gt; Paragraph" Name="Blockquote &gt; Blockquote &gt; Paragraph" LeftIndent="30">
+      <ParagraphStyle Self="ParagraphStyle/Blockquote &gt; Blockquote &gt; first &gt; Paragraph" Name="Blockquote &gt; Blockquote &gt; first &gt; Paragraph" LeftIndent="30">
         <Properties>
           <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
         </Properties>
@@ -96,17 +96,27 @@
           <AppliedFont type="string">Courier New</AppliedFont>
         </Properties>
       </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/Blockquote &gt; NumList" Name="Blockquote &gt; NumList" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
       <ParagraphStyle Self="ParagraphStyle/Blockquote &gt; NumList &gt; first" Name="Blockquote &gt; NumList &gt; first" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
         <Properties>
           <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
         </Properties>
       </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/Blockquote &gt; NumList &gt; last" Name="Blockquote &gt; NumList &gt; last" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        </Properties>
+      </ParagraphStyle>
       <ParagraphStyle Self="ParagraphStyle/Blockquote &gt; Paragraph" Name="Blockquote &gt; Paragraph" LeftIndent="10">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/Blockquote &gt; first &gt; Paragraph" Name="Blockquote &gt; first &gt; Paragraph" LeftIndent="10">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/Blockquote &gt; last &gt; Blockquote &gt; first &gt; Paragraph" Name="Blockquote &gt; last &gt; Blockquote &gt; first &gt; Paragraph" LeftIndent="30">
         <Properties>
           <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
         </Properties>
@@ -120,58 +130,6 @@
               <AlignmentCharacter type="string">.</AlignmentCharacter>
               <Leader type="string" />
               <Position type="unit">10</Position>
-            </ListItem>
-          </TabList>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/BulList &gt; BulList &gt; BulList &gt; first" Name="BulList &gt; BulList &gt; BulList &gt; first" BulletsAndNumberingListType="BulletList" LeftIndent="20">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <TabList type="list">
-            <ListItem type="record">
-              <Alignment type="enumeration">LeftAlign</Alignment>
-              <AlignmentCharacter type="string">.</AlignmentCharacter>
-              <Leader type="string" />
-              <Position type="unit">30</Position>
-            </ListItem>
-          </TabList>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/BulList &gt; BulList &gt; Paragraph" Name="BulList &gt; BulList &gt; Paragraph" BulletsAndNumberingListType="BulletList" LeftIndent="10">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <TabList type="list">
-            <ListItem type="record">
-              <Alignment type="enumeration">LeftAlign</Alignment>
-              <AlignmentCharacter type="string">.</AlignmentCharacter>
-              <Leader type="string" />
-              <Position type="unit">20</Position>
-            </ListItem>
-          </TabList>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/BulList &gt; BulList &gt; first" Name="BulList &gt; BulList &gt; first" BulletsAndNumberingListType="BulletList" LeftIndent="10">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <TabList type="list">
-            <ListItem type="record">
-              <Alignment type="enumeration">LeftAlign</Alignment>
-              <AlignmentCharacter type="string">.</AlignmentCharacter>
-              <Leader type="string" />
-              <Position type="unit">20</Position>
-            </ListItem>
-          </TabList>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/BulList &gt; BulList &gt; first &gt; Paragraph" Name="BulList &gt; BulList &gt; first &gt; Paragraph" BulletsAndNumberingListType="BulletList" LeftIndent="10">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <TabList type="list">
-            <ListItem type="record">
-              <Alignment type="enumeration">LeftAlign</Alignment>
-              <AlignmentCharacter type="string">.</AlignmentCharacter>
-              <Leader type="string" />
-              <Position type="unit">20</Position>
             </ListItem>
           </TabList>
         </Properties>
@@ -202,7 +160,85 @@
           </TabList>
         </Properties>
       </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/BulList &gt; first &gt; BulList &gt; first" Name="BulList &gt; first &gt; BulList &gt; first" BulletsAndNumberingListType="BulletList" LeftIndent="10">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+          <TabList type="list">
+            <ListItem type="record">
+              <Alignment type="enumeration">LeftAlign</Alignment>
+              <AlignmentCharacter type="string">.</AlignmentCharacter>
+              <Leader type="string" />
+              <Position type="unit">20</Position>
+            </ListItem>
+          </TabList>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/BulList &gt; first &gt; BulList &gt; first &gt; BulList &gt; first" Name="BulList &gt; first &gt; BulList &gt; first &gt; BulList &gt; first" BulletsAndNumberingListType="BulletList" LeftIndent="20">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+          <TabList type="list">
+            <ListItem type="record">
+              <Alignment type="enumeration">LeftAlign</Alignment>
+              <AlignmentCharacter type="string">.</AlignmentCharacter>
+              <Leader type="string" />
+              <Position type="unit">30</Position>
+            </ListItem>
+          </TabList>
+        </Properties>
+      </ParagraphStyle>
       <ParagraphStyle Self="ParagraphStyle/BulList &gt; first &gt; Paragraph" Name="BulList &gt; first &gt; Paragraph" BulletsAndNumberingListType="BulletList" LeftIndent="0">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+          <TabList type="list">
+            <ListItem type="record">
+              <Alignment type="enumeration">LeftAlign</Alignment>
+              <AlignmentCharacter type="string">.</AlignmentCharacter>
+              <Leader type="string" />
+              <Position type="unit">10</Position>
+            </ListItem>
+          </TabList>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/BulList &gt; last" Name="BulList &gt; last" BulletsAndNumberingListType="BulletList" LeftIndent="0">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+          <TabList type="list">
+            <ListItem type="record">
+              <Alignment type="enumeration">LeftAlign</Alignment>
+              <AlignmentCharacter type="string">.</AlignmentCharacter>
+              <Leader type="string" />
+              <Position type="unit">10</Position>
+            </ListItem>
+          </TabList>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/BulList &gt; last &gt; BulList &gt; first &gt; Paragraph" Name="BulList &gt; last &gt; BulList &gt; first &gt; Paragraph" BulletsAndNumberingListType="BulletList" LeftIndent="10">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+          <TabList type="list">
+            <ListItem type="record">
+              <Alignment type="enumeration">LeftAlign</Alignment>
+              <AlignmentCharacter type="string">.</AlignmentCharacter>
+              <Leader type="string" />
+              <Position type="unit">20</Position>
+            </ListItem>
+          </TabList>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/BulList &gt; last &gt; BulList &gt; last &gt; Paragraph" Name="BulList &gt; last &gt; BulList &gt; last &gt; Paragraph" BulletsAndNumberingListType="BulletList" LeftIndent="10">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+          <TabList type="list">
+            <ListItem type="record">
+              <Alignment type="enumeration">LeftAlign</Alignment>
+              <AlignmentCharacter type="string">.</AlignmentCharacter>
+              <Leader type="string" />
+              <Position type="unit">20</Position>
+            </ListItem>
+          </TabList>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/BulList &gt; last &gt; Paragraph" Name="BulList &gt; last &gt; Paragraph" BulletsAndNumberingListType="BulletList" LeftIndent="0">
         <Properties>
           <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
           <TabList type="list">
@@ -226,33 +262,63 @@
           <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
         </Properties>
       </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; Blockquote &gt; Paragraph" Name="DefListDef &gt; Blockquote &gt; Paragraph" LeftIndent="30">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; CodeBlock" Name="DefListDef &gt; CodeBlock" LeftIndent="10">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <AppliedFont type="string">Courier New</AppliedFont>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; NumList" Name="DefListDef &gt; NumList" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; NumList &gt; first" Name="DefListDef &gt; NumList &gt; first" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
       <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; Paragraph" Name="DefListDef &gt; Paragraph" LeftIndent="10">
         <Properties>
           <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
         </Properties>
       </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; first" Name="DefListDef &gt; first" LeftIndent="10">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; first &gt; Paragraph" Name="DefListDef &gt; first &gt; Paragraph" LeftIndent="10">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; last" Name="DefListDef &gt; last" LeftIndent="10">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; last &gt; Blockquote &gt; first &gt; Paragraph" Name="DefListDef &gt; last &gt; Blockquote &gt; first &gt; Paragraph" LeftIndent="30">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; last &gt; CodeBlock" Name="DefListDef &gt; last &gt; CodeBlock" LeftIndent="10">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+          <AppliedFont type="string">Courier New</AppliedFont>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; last &gt; NumList &gt; first" Name="DefListDef &gt; last &gt; NumList &gt; first" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; last &gt; NumList &gt; last" Name="DefListDef &gt; last &gt; NumList &gt; last" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; last &gt; Paragraph" Name="DefListDef &gt; last &gt; Paragraph" LeftIndent="10">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        </Properties>
+      </ParagraphStyle>
       <ParagraphStyle Self="ParagraphStyle/DefListTerm" Name="DefListTerm" LeftIndent="0" BulletsAndNumberingListType="BulletList" FontStyle="Bold">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/DefListTerm &gt; first" Name="DefListTerm &gt; first" LeftIndent="0" BulletsAndNumberingListType="BulletList" FontStyle="Bold">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/DefListTerm &gt; last" Name="DefListTerm &gt; last" LeftIndent="0" BulletsAndNumberingListType="BulletList" FontStyle="Bold">
         <Properties>
           <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
         </Properties>
@@ -324,50 +390,17 @@
           </TabList>
         </Properties>
       </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; NumList &gt; NumList &gt; first &gt; beginsWith-3 &gt; lowerAlpha" Name="NumList &gt; NumList &gt; NumList &gt; NumList &gt; first &gt; beginsWith-3 &gt; lowerAlpha" NumberingExpression="^#.^t" NumberingLevel="4" BulletsAndNumberingListType="NumberedList" LeftIndent="30">
+      <ParagraphStyle Self="ParagraphStyle/NumList &gt; BulList &gt; last" Name="NumList &gt; BulList &gt; last" BulletsAndNumberingListType="BulletList" LeftIndent="10">
         <Properties>
           <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <NumberingFormat type="string">a, b, c, d...</NumberingFormat>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; NumList &gt; first &gt; beginsWith-6" Name="NumList &gt; NumList &gt; NumList &gt; first &gt; beginsWith-6" NumberingExpression="^#.^t" NumberingLevel="3" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; NumList &gt; first &gt; upperAlpha" Name="NumList &gt; NumList &gt; NumList &gt; first &gt; upperAlpha" NumberingExpression="^#.^t" NumberingLevel="3" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <NumberingFormat type="string">A, B, C, D...</NumberingFormat>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; NumList &gt; upperAlpha" Name="NumList &gt; NumList &gt; NumList &gt; upperAlpha" NumberingExpression="^#.^t" NumberingLevel="3" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <NumberingFormat type="string">A, B, C, D...</NumberingFormat>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; beginsWith-4 &gt; lowerRoman" Name="NumList &gt; NumList &gt; beginsWith-4 &gt; lowerRoman" NumberingExpression="^#.^t" NumberingLevel="2" BulletsAndNumberingListType="NumberedList" LeftIndent="10">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <NumberingFormat type="string">i, ii, iii, iv...</NumberingFormat>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; first" Name="NumList &gt; NumList &gt; first" NumberingExpression="^#.^t" NumberingLevel="2" BulletsAndNumberingListType="NumberedList" LeftIndent="10">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; first &gt; beginsWith-4 &gt; lowerRoman" Name="NumList &gt; NumList &gt; first &gt; beginsWith-4 &gt; lowerRoman" NumberingExpression="^#.^t" NumberingLevel="2" BulletsAndNumberingListType="NumberedList" LeftIndent="10">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <NumberingFormat type="string">i, ii, iii, iv...</NumberingFormat>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; first &gt; upperRoman" Name="NumList &gt; NumList &gt; first &gt; upperRoman" NumberingExpression="^#.^t" NumberingLevel="2" BulletsAndNumberingListType="NumberedList" LeftIndent="10">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <NumberingFormat type="string">I, II, III, IV...</NumberingFormat>
+          <TabList type="list">
+            <ListItem type="record">
+              <Alignment type="enumeration">LeftAlign</Alignment>
+              <AlignmentCharacter type="string">.</AlignmentCharacter>
+              <Leader type="string" />
+              <Position type="unit">20</Position>
+            </ListItem>
+          </TabList>
         </Properties>
       </ParagraphStyle>
       <ParagraphStyle Self="ParagraphStyle/NumList &gt; Paragraph" Name="NumList &gt; Paragraph" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
@@ -375,14 +408,26 @@
           <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
         </Properties>
       </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; beginsWith-2 &gt; Paragraph" Name="NumList &gt; beginsWith-2 &gt; Paragraph" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
+      <ParagraphStyle Self="ParagraphStyle/NumList &gt; first" Name="NumList &gt; first" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
         <Properties>
           <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
         </Properties>
       </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; first" Name="NumList &gt; first" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
+      <ParagraphStyle Self="ParagraphStyle/NumList &gt; first &gt; NumList &gt; first &gt; NumList &gt; first &gt; NumList &gt; first &gt; beginsWith-3 &gt; lowerAlpha" Name="NumList &gt; first &gt; NumList &gt; first &gt; NumList &gt; first &gt; NumList &gt; first &gt; beginsWith-3 &gt; lowerAlpha" NumberingExpression="^#.^t" NumberingLevel="4" BulletsAndNumberingListType="NumberedList" LeftIndent="30">
         <Properties>
           <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+          <NumberingFormat type="string">a, b, c, d...</NumberingFormat>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/NumList &gt; first &gt; NumList &gt; first &gt; NumList &gt; first &gt; beginsWith-6" Name="NumList &gt; first &gt; NumList &gt; first &gt; NumList &gt; first &gt; beginsWith-6" NumberingExpression="^#.^t" NumberingLevel="3" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/NumList &gt; first &gt; NumList &gt; first &gt; upperRoman" Name="NumList &gt; first &gt; NumList &gt; first &gt; upperRoman" NumberingExpression="^#.^t" NumberingLevel="2" BulletsAndNumberingListType="NumberedList" LeftIndent="10">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+          <NumberingFormat type="string">I, II, III, IV...</NumberingFormat>
         </Properties>
       </ParagraphStyle>
       <ParagraphStyle Self="ParagraphStyle/NumList &gt; first &gt; Paragraph" Name="NumList &gt; first &gt; Paragraph" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
@@ -395,13 +440,62 @@
           <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
         </Properties>
       </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/NumList &gt; first &gt; subParagraph &gt; Paragraph" Name="NumList &gt; first &gt; subParagraph &gt; Paragraph" NumberingExpression="^#.^t" NumberingLevel="1" LeftIndent="0">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        </Properties>
+      </ParagraphStyle>
       <ParagraphStyle Self="ParagraphStyle/NumList &gt; first &gt; upperAlpha" Name="NumList &gt; first &gt; upperAlpha" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
         <Properties>
           <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
           <NumberingFormat type="string">A, B, C, D...</NumberingFormat>
         </Properties>
       </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; subParagraph &gt; Paragraph" Name="NumList &gt; subParagraph &gt; Paragraph" NumberingExpression="^#.^t" NumberingLevel="1" LeftIndent="0">
+      <ParagraphStyle Self="ParagraphStyle/NumList &gt; last" Name="NumList &gt; last" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/NumList &gt; last &gt; NumList &gt; first" Name="NumList &gt; last &gt; NumList &gt; first" NumberingExpression="^#.^t" NumberingLevel="2" BulletsAndNumberingListType="NumberedList" LeftIndent="10">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/NumList &gt; last &gt; NumList &gt; first &gt; beginsWith-4 &gt; lowerRoman" Name="NumList &gt; last &gt; NumList &gt; first &gt; beginsWith-4 &gt; lowerRoman" NumberingExpression="^#.^t" NumberingLevel="2" BulletsAndNumberingListType="NumberedList" LeftIndent="10">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+          <NumberingFormat type="string">i, ii, iii, iv...</NumberingFormat>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/NumList &gt; last &gt; NumList &gt; last &gt; NumList &gt; first &gt; upperAlpha" Name="NumList &gt; last &gt; NumList &gt; last &gt; NumList &gt; first &gt; upperAlpha" NumberingExpression="^#.^t" NumberingLevel="3" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+          <NumberingFormat type="string">A, B, C, D...</NumberingFormat>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/NumList &gt; last &gt; NumList &gt; last &gt; NumList &gt; last &gt; upperAlpha" Name="NumList &gt; last &gt; NumList &gt; last &gt; NumList &gt; last &gt; upperAlpha" NumberingExpression="^#.^t" NumberingLevel="3" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+          <NumberingFormat type="string">A, B, C, D...</NumberingFormat>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/NumList &gt; last &gt; NumList &gt; last &gt; beginsWith-4 &gt; lowerRoman" Name="NumList &gt; last &gt; NumList &gt; last &gt; beginsWith-4 &gt; lowerRoman" NumberingExpression="^#.^t" NumberingLevel="2" BulletsAndNumberingListType="NumberedList" LeftIndent="10">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+          <NumberingFormat type="string">i, ii, iii, iv...</NumberingFormat>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/NumList &gt; last &gt; Paragraph" Name="NumList &gt; last &gt; Paragraph" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/NumList &gt; last &gt; beginsWith-2 &gt; Paragraph" Name="NumList &gt; last &gt; beginsWith-2 &gt; Paragraph" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
+        <Properties>
+          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        </Properties>
+      </ParagraphStyle>
+      <ParagraphStyle Self="ParagraphStyle/NumList &gt; last &gt; subParagraph &gt; Paragraph" Name="NumList &gt; last &gt; subParagraph &gt; Paragraph" NumberingExpression="^#.^t" NumberingLevel="1" LeftIndent="0">
         <Properties>
           <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
         </Properties>
@@ -538,12 +632,12 @@
     <Content>E-mail style:</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/Blockquote &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/Blockquote &gt; first &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>This is a block quote. It is pretty short.</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/Blockquote &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/Blockquote &gt; first &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Code in a block quote:</Content>
   </CharacterStyleRange><Br />
@@ -565,7 +659,7 @@
     <Content>item one</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/Blockquote &gt; NumList">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/Blockquote &gt; NumList &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>item two</Content>
   </CharacterStyleRange><Br />
@@ -575,12 +669,12 @@
     <Content>Nested block quotes:</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/Blockquote &gt; Blockquote &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/Blockquote &gt; Blockquote &gt; first &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>nested</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/Blockquote &gt; Blockquote &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/Blockquote &gt; last &gt; Blockquote &gt; first &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>nested</Content>
   </CharacterStyleRange><Br />
@@ -653,7 +747,7 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>asterisk 2</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>asterisk 3</Content>
   </CharacterStyleRange><Br />
@@ -673,7 +767,7 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>asterisk 2</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; last &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>asterisk 3</Content>
   </CharacterStyleRange><Br />
@@ -693,7 +787,7 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Plus 2</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Plus 3</Content>
   </CharacterStyleRange><Br />
@@ -713,7 +807,7 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Plus 2</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; last &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Plus 3</Content>
   </CharacterStyleRange><Br />
@@ -733,7 +827,7 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Minus 2</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Minus 3</Content>
   </CharacterStyleRange><Br />
@@ -753,7 +847,7 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Minus 2</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; last &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Minus 3</Content>
   </CharacterStyleRange><Br />
@@ -778,7 +872,7 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Second</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Third</Content>
   </CharacterStyleRange><Br />
@@ -798,7 +892,7 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Two</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Three</Content>
   </CharacterStyleRange><Br />
@@ -818,7 +912,7 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Second</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; last &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Third</Content>
   </CharacterStyleRange><Br />
@@ -838,7 +932,7 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Two</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; last &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Three</Content>
   </CharacterStyleRange><Br />
@@ -853,7 +947,7 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Item 1, graf one.</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; subParagraph &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; first &gt; subParagraph &gt; Paragraph" NumberingContinue="false">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>	</Content>
   </CharacterStyleRange>
@@ -866,7 +960,7 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Item 2.</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; last &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Item 3.</Content>
   </CharacterStyleRange><Br />
@@ -881,12 +975,12 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Tab</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; BulList &gt; first" NumberingContinue="false">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; first &gt; BulList &gt; first" NumberingContinue="false">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Tab</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; BulList &gt; BulList &gt; first" NumberingContinue="false">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; first &gt; BulList &gt; first &gt; BulList &gt; first" NumberingContinue="false">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Tab</Content>
   </CharacterStyleRange><Br />
@@ -916,12 +1010,12 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Fie</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; BulList">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; BulList &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Foe</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Third</Content>
   </CharacterStyleRange><Br />
@@ -951,12 +1045,12 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Fie</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; BulList">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; BulList &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Foe</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; last &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Third</Content>
   </CharacterStyleRange><Br />
@@ -971,17 +1065,17 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>this is a list item indented with tabs</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; last &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>this is a list item indented with spaces</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; BulList &gt; first &gt; Paragraph" NumberingContinue="false">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; last &gt; BulList &gt; first &gt; Paragraph" NumberingContinue="false">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>this is an example list item indented with tabs</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; BulList &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; last &gt; BulList &gt; last &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>this is an example list item indented with spaces</Content>
   </CharacterStyleRange><Br />
@@ -996,12 +1090,12 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>begins with 2</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; beginsWith-2 &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; last &gt; beginsWith-2 &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>and now 3</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; subParagraph &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; last &gt; subParagraph &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>	</Content>
   </CharacterStyleRange>
@@ -1009,22 +1103,22 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>with a continuation</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange NumberingStartAt="4" AppliedParagraphStyle="ParagraphStyle/NumList &gt; NumList &gt; first &gt; beginsWith-4 &gt; lowerRoman" NumberingContinue="false">
+<ParagraphStyleRange NumberingStartAt="4" AppliedParagraphStyle="ParagraphStyle/NumList &gt; last &gt; NumList &gt; first &gt; beginsWith-4 &gt; lowerRoman" NumberingContinue="false">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>sublist with roman numerals, starting with 4</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; NumList &gt; beginsWith-4 &gt; lowerRoman">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; last &gt; NumList &gt; last &gt; beginsWith-4 &gt; lowerRoman">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>more items</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; NumList &gt; NumList &gt; first &gt; upperAlpha" NumberingContinue="false">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; last &gt; NumList &gt; last &gt; NumList &gt; first &gt; upperAlpha" NumberingContinue="false">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>a subsublist</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; NumList &gt; NumList &gt; upperAlpha">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; last &gt; NumList &gt; last &gt; NumList &gt; last &gt; upperAlpha">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>a subsublist</Content>
   </CharacterStyleRange><Br />
@@ -1039,17 +1133,17 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Upper Alpha</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; NumList &gt; first &gt; upperRoman" NumberingContinue="false">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; first &gt; NumList &gt; first &gt; upperRoman" NumberingContinue="false">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Upper Roman.</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange NumberingStartAt="6" AppliedParagraphStyle="ParagraphStyle/NumList &gt; NumList &gt; NumList &gt; first &gt; beginsWith-6" NumberingContinue="false">
+<ParagraphStyleRange NumberingStartAt="6" AppliedParagraphStyle="ParagraphStyle/NumList &gt; first &gt; NumList &gt; first &gt; NumList &gt; first &gt; beginsWith-6" NumberingContinue="false">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Decimal start with 6</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange NumberingStartAt="3" AppliedParagraphStyle="ParagraphStyle/NumList &gt; NumList &gt; NumList &gt; NumList &gt; first &gt; beginsWith-3 &gt; lowerAlpha" NumberingContinue="false">
+<ParagraphStyleRange NumberingStartAt="3" AppliedParagraphStyle="ParagraphStyle/NumList &gt; first &gt; NumList &gt; first &gt; NumList &gt; first &gt; NumList &gt; first &gt; beginsWith-3 &gt; lowerAlpha" NumberingContinue="false">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Lower alpha with paren</Content>
   </CharacterStyleRange><Br />
@@ -1064,12 +1158,12 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Autonumber.</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>More.</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; NumList &gt; first" NumberingContinue="false">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/NumList &gt; last &gt; NumList &gt; first" NumberingContinue="false">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Nested.</Content>
   </CharacterStyleRange><Br />
@@ -1099,12 +1193,12 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Tight using spaces:</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm &gt; first">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>apple</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; first">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>red fruit</Content>
   </CharacterStyleRange><Br />
@@ -1119,12 +1213,12 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>orange fruit</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>banana</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>yellow fruit</Content>
   </CharacterStyleRange><Br />
@@ -1134,12 +1228,12 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Tight using tabs:</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm &gt; first">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>apple</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; first">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>red fruit</Content>
   </CharacterStyleRange><Br />
@@ -1154,12 +1248,12 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>orange fruit</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>banana</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>yellow fruit</Content>
   </CharacterStyleRange><Br />
@@ -1169,12 +1263,12 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Loose:</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm &gt; first">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>apple</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; first &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>red fruit</Content>
   </CharacterStyleRange><Br />
@@ -1189,12 +1283,12 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>orange fruit</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>banana</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; last &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>yellow fruit</Content>
   </CharacterStyleRange><Br />
@@ -1204,37 +1298,37 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Multiple blocks with italics:</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm &gt; first">
   <CharacterStyleRange AppliedCharacterStyle="CharacterStyle/Italic">
     <Content>apple</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; first &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>red fruit</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; first &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>contains seeds, crisp, pleasant to taste</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="CharacterStyle/Italic">
     <Content>orange</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; last &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>orange fruit</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; CodeBlock">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; last &gt; CodeBlock">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>{ orange code block }</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; Blockquote &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; last &gt; Blockquote &gt; first &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>orange block quote</Content>
   </CharacterStyleRange><Br />
@@ -1244,32 +1338,32 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Multiple definitions, tight:</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm &gt; first">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>apple</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; first">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>red fruit</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; first">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>computer</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>orange</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>orange fruit</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>bank</Content>
   </CharacterStyleRange><Br />
@@ -1279,32 +1373,32 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Multiple definitions, loose:</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm &gt; first">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>apple</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; first &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>red fruit</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; first &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>computer</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>orange</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; last &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>orange fruit</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; last &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>bank</Content>
   </CharacterStyleRange><Br />
@@ -1314,37 +1408,37 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Blank line after term, indented marker, alternate markers:</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm &gt; first">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>apple</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; first &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>red fruit</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; first &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>computer</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListTerm &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>orange</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; last &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>orange fruit</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; NumList &gt; first" NumberingContinue="false">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; last &gt; NumList &gt; first" NumberingContinue="false">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>sublist</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; NumList">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/DefListDef &gt; last &gt; NumList &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>sublist</Content>
   </CharacterStyleRange><Br />
@@ -1898,7 +1992,7 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>\frac{d}{dx}f(x)=\lim_{h\to 0}\frac{f(x+h)-f(x)}{h}</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Here’s one that has a line break in it: </Content>
   </CharacterStyleRange>
@@ -1953,7 +2047,7 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>Shoes ($20) and socks ($5).</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Escaped </Content>
   </CharacterStyleRange>
@@ -2005,7 +2099,7 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     <Content>set membership: ∈</Content>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>copyright: ©</Content>
   </CharacterStyleRange><Br />
@@ -2432,7 +2526,7 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     </CharacterStyleRange>
   </HyperlinkTextSource><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/BulList &gt; last">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>It should.</Content>
   </CharacterStyleRange><Br />
@@ -2447,7 +2541,7 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     </CharacterStyleRange>
   </HyperlinkTextSource><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/Blockquote &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/Blockquote &gt; first &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Blockquoted: </Content>
   </CharacterStyleRange>
@@ -2666,7 +2760,7 @@ These should not be escaped:  \$ \\ \&gt; \[ \{</Content>
     </Footnote>
   </CharacterStyleRange><Br />
 </ParagraphStyleRange>
-<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/Blockquote &gt; Paragraph">
+<ParagraphStyleRange AppliedParagraphStyle="ParagraphStyle/Blockquote &gt; first &gt; Paragraph">
   <CharacterStyleRange AppliedCharacterStyle="$ID/NormalCharacterStyle">
     <Content>Notes can go in quotes.</Content>
   </CharacterStyleRange>
