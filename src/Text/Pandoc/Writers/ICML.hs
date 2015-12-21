@@ -14,27 +14,27 @@ InCopy is the companion word-processor to Adobe InDesign and ICML documents can 
 into InDesign with File -> Place.
 -}
 module Text.Pandoc.Writers.ICML (writeICML) where
-import Text.Pandoc.Definition
+import qualified Text.Pandoc.Definition as P
 import Text.Pandoc.XML
 import Text.Pandoc.Readers.TeXMath (texMathToInlines)
 import Text.Pandoc.Writers.Shared
-import Text.Pandoc.Shared (splitBy, fetchItem, warn)
+import Text.Pandoc.Shared (fetchItem, warn)
 import Text.Pandoc.Options
 import Text.Pandoc.Templates (renderTemplate')
 import Text.Pandoc.Pretty
 import Text.Pandoc.ImageSize
-import Data.List (isPrefixOf, isInfixOf, stripPrefix, intersperse)
-import Data.Text as Text (breakOnAll, pack)
+import Data.List (intersperse)
 import Control.Monad.State
 import Network.URI (isURI)
 import qualified Data.Set as Set
 
-type Style = [String]
+type CharStyle = [CharName]
+type ParStyle  = [ParName]
 type Hyperlink = [(Int, String)]
 
 data WriterState = WriterState{
-    blockStyles  :: Set.Set String
-  , inlineStyles :: Set.Set String
+    blockStyles  :: Set.Set ParStyle
+  , inlineStyles :: Set.Set CharStyle
   , links        :: Hyperlink
   , listDepth    :: Int
   , maxListDepth :: Int
@@ -52,79 +52,48 @@ defaultWriterState = WriterState{
   }
 
 -- inline names (appear in InDesign's character styles pane)
-emphName        :: String
-strongName      :: String
-strikeoutName   :: String
-superscriptName :: String
-subscriptName   :: String
-smallCapsName   :: String
-codeName        :: String
-linkName        :: String
-emphName        = "Italic"
-strongName      = "Bold"
-strikeoutName   = "Strikeout"
-superscriptName = "Superscript"
-subscriptName   = "Subscript"
-smallCapsName   = "SmallCaps"
-codeName        = "Code"
-linkName        = "Link"
+data CharName = Italic
+              | Bold
+              | Strikeout
+              | Superscript
+              | Subscript
+              | SmallCaps
+              | Code
+              | Link
+              | Cite
+              deriving (Show, Eq, Ord)
 
 -- block element names (appear in InDesign's paragraph styles pane)
-paragraphName     :: String
-figureName        :: String
-imgCaptionName    :: String
-codeBlockName     :: String
-blockQuoteName    :: String
-orderedListName   :: String
-bulletListName    :: String
-defListTermName   :: String
-defListDefName    :: String
-headerName        :: String
-tableName         :: String
-tableHeaderName   :: String
-tableCaptionName  :: String
-alignLeftName     :: String
-alignRightName    :: String
-alignCenterName   :: String
-firstListItemName :: String
-beginsWithName    :: String
-lowerRomanName    :: String
-upperRomanName    :: String
-lowerAlphaName    :: String
-upperAlphaName    :: String
-subListParName    :: String
-footnoteName      :: String
-citeName          :: String
-paragraphName     = "Paragraph"
-figureName        = "Figure"
-imgCaptionName    = "Caption"
-codeBlockName     = "CodeBlock"
-blockQuoteName    = "Blockquote"
-orderedListName   = "NumList"
-bulletListName    = "BulList"
-defListTermName   = "DefListTerm"
-defListDefName    = "DefListDef"
-headerName        = "Header"
-tableName         = "TablePar"
-tableHeaderName   = "TableHeader"
-tableCaptionName  = "TableCaption"
-alignLeftName     = "LeftAlign"
-alignRightName    = "RightAlign"
-alignCenterName   = "CenterAlign"
-firstListItemName = "first"
-beginsWithName    = "beginsWith-"
-lowerRomanName    = "lowerRoman"
-upperRomanName    = "upperRoman"
-lowerAlphaName    = "lowerAlpha"
-upperAlphaName    = "upperAlpha"
-subListParName    = "subParagraph"
-footnoteName      = "Footnote"
-citeName          = "Cite"
+data ParName  = Paragraph
+              | Figure
+              | Caption
+              | CodeBlock
+              | Blockquote
+              | NumList
+              | BulList
+              | DefListTerm
+              | DefListDef
+              | Header Int
+              | TablePar
+              | TableHeader
+              | TableCaption
+              | LeftAlign
+              | RightAlign
+              | CenterAlign
+              | Footnote
+              | BeginsWith Int
+              | ListLowerRoman
+              | ListUpperRoman
+              | ListLowerAlpha
+              | ListUpperAlpha
+              | ListSubParagraph
+              | First
+              deriving (Show, Eq, Ord)
 
 
 -- | Convert Pandoc document to string in ICML format.
-writeICML :: WriterOptions -> Pandoc -> IO String
-writeICML opts (Pandoc meta blocks) = do
+writeICML :: WriterOptions -> P.Pandoc -> IO String
+writeICML opts (P.Pandoc meta blocks) = do
   let colwidth = if writerWrapText opts == WrapAuto
                     then Just $ writerColumns opts
                     else Nothing
@@ -137,8 +106,8 @@ writeICML opts (Pandoc meta blocks) = do
   (doc, st) <- runStateT (blocksToICML opts [] blocks) defaultWriterState
   let main    = render' doc
       context = defField "body" main
-              $ defField "charStyles" (render' $ charStylesToDoc st)
-              $ defField "parStyles"  (render' $ parStylesToDoc st)
+              $ defField "charStyles" (render' $ charStylesToDoc $ inlineStyles st)
+              $ defField "parStyles"  (render' $ parStylesToDoc  $ blockStyles  st)
               $ defField "hyperlinks" (render' $ hyperlinksToDoc $ links st)
               $ metadata
   return $ if writerStandalone opts
@@ -146,9 +115,9 @@ writeICML opts (Pandoc meta blocks) = do
               else main
 
 -- | Auxilary functions for parStylesToDoc and charStylesToDoc.
-contains :: String -> (String, (String, String)) -> [(String, String)]
+contains :: (Eq a) => [a] -> (a, (String, String)) -> [(String, String)]
 contains s rule =
-  if isInfixOf (fst rule) s
+  if (fst rule) `elem` s
      then [snd rule]
      else []
 
@@ -168,51 +137,51 @@ defaultListIndent = 10
 lineSeparator :: String
 lineSeparator = "&#x2028;"
 
--- | Convert a WriterState with its block styles to the ICML listing of Paragraph Styles.
-parStylesToDoc :: WriterState -> Doc
-parStylesToDoc st = vcat $ map makeStyle $ Set.toAscList $ blockStyles st
+-- | Convert a set of block styles to the ICML listing of Paragraph Styles.
+parStylesToDoc :: Set.Set ParStyle -> Doc
+parStylesToDoc = vcat . (map makeStyle) . Set.toAscList
   where
     makeStyle s =
-      let countSubStrs sub str = length $ Text.breakOnAll (Text.pack sub) (Text.pack str)
+      let count key = length . filter (== key)
           attrs = concat $ map (contains s) $ [
-                               (defListTermName, ("BulletsAndNumberingListType", "BulletList"))
-                             , (defListTermName, ("FontStyle", "Bold"))
-                             , (tableHeaderName, ("FontStyle", "Bold"))
-                             , (alignLeftName,   ("Justification", "LeftAlign"))
-                             , (alignRightName,  ("Justification", "RightAlign"))
-                             , (alignCenterName, ("Justification", "CenterAlign"))
-                             , (headerName++"1", ("PointSize", "36"))
-                             , (headerName++"2", ("PointSize", "30"))
-                             , (headerName++"3", ("PointSize", "24"))
-                             , (headerName++"4", ("PointSize", "18"))
-                             , (headerName++"5", ("PointSize", "14"))
+                               (DefListTerm, ("BulletsAndNumberingListType", "BulletList"))
+                             , (DefListTerm, ("FontStyle", "Bold"))
+                             , (TableHeader, ("FontStyle", "Bold"))
+                             , (LeftAlign,   ("Justification", "LeftAlign"))
+                             , (RightAlign,  ("Justification", "RightAlign"))
+                             , (CenterAlign, ("Justification", "CenterAlign"))
+                             , (Header 1, ("PointSize", "36"))
+                             , (Header 2, ("PointSize", "30"))
+                             , (Header 3, ("PointSize", "24"))
+                             , (Header 4, ("PointSize", "18"))
+                             , (Header 5, ("PointSize", "14"))
                              ]
           -- what is the most nested list type, if any?
-          (isBulletList, isOrderedList) = findList $ reverse $ splitBy (==' ') s
+          (isBulletList, isOrderedList) = findList s
             where
               findList [] = (False, False)
-              findList (x:xs) | x == bulletListName  = (True, False)
-                              | x == orderedListName = (False, True)
+              findList (x:xs) | x == BulList = (True, False)
+                              | x == NumList = (False, True)
                               | otherwise = findList xs
-          nBuls = countSubStrs bulletListName s
-          nOrds = countSubStrs orderedListName s
+          nBuls = count BulList s
+          nOrds = count NumList s
           attrs' = numbering ++ listType ++ indent ++ attrs
             where
               numbering | isOrderedList = [("NumberingExpression", "^#.^t"), ("NumberingLevel", show nOrds)]
                         | otherwise     = []
-              listType | isOrderedList && (not $ isInfixOf subListParName s)
+              notSubPar = not $ ListSubParagraph `elem` s
+              listType | notSubPar && isOrderedList
                            = [("BulletsAndNumberingListType", "NumberedList")]
-                       | isBulletList && (not $ isInfixOf subListParName s)
+                       | notSubPar && isBulletList
                            = [("BulletsAndNumberingListType", "BulletList")]
                        | otherwise = []
-              indent = [("LeftIndent", show indt)]
+              indent = [("LeftIndent", show i)]
                 where
-                  nBlockQuotes = countSubStrs blockQuoteName s
-                  nDefLists = countSubStrs defListDefName s
-                  indt = max 0 $ defaultListIndent*(nBuls + nOrds - 1) + defaultIndent*(nBlockQuotes + nDefLists)
+                  i = max 0 $ defaultListIndent*(nBuls + nOrds - 1)
+                            + defaultIndent*(count Blockquote s + count DefListDef s)
           props = inTags True "Properties" [] $ (basedOn $$ tabList $$ numbForm)
             where
-              font = if isInfixOf codeBlockName s
+              font = if CodeBlock `elem` s
                         then monospacedFont
                         else empty
               basedOn = inTags False "BasedOn" [("type", "object")] (text "$ID/NormalParagraphStyle") $$ font
@@ -227,36 +196,38 @@ parStylesToDoc st = vcat $ map makeStyle $ Set.toAscList $ blockStyles st
                                   ]
                            else empty
               makeNumb name = inTags False "NumberingFormat" [("type", "string")] (text name)
-              numbForm | isInfixOf lowerRomanName s = makeNumb "i, ii, iii, iv..."
-                       | isInfixOf upperRomanName s = makeNumb "I, II, III, IV..."
-                       | isInfixOf lowerAlphaName s = makeNumb "a, b, c, d..."
-                       | isInfixOf upperAlphaName s = makeNumb "A, B, C, D..."
+              numbForm | ListLowerRoman `elem` s = makeNumb "i, ii, iii, iv..."
+                       | ListUpperRoman `elem` s = makeNumb "I, II, III, IV..."
+                       | ListLowerAlpha `elem` s = makeNumb "a, b, c, d..."
+                       | ListUpperAlpha `elem` s = makeNumb "A, B, C, D..."
                        | otherwise = empty
-      in  inTags True "ParagraphStyle" ([("Self", "ParagraphStyle/"++s), ("Name", s)] ++ attrs') props
+          stlStr = showParStyle s
+      in  inTags True "ParagraphStyle" ([("Self", "ParagraphStyle/"++stlStr), ("Name", stlStr)] ++ attrs') props
 
--- | Convert a WriterState with its inline styles to the ICML listing of Character Styles.
-charStylesToDoc :: WriterState -> Doc
-charStylesToDoc st = vcat $ map makeStyle $ Set.toAscList $ inlineStyles st
+-- | Convert a set of inline styles to the ICML listing of Character Styles.
+charStylesToDoc :: Set.Set CharStyle -> Doc
+charStylesToDoc = vcat . (map makeStyle) . Set.toAscList
   where
     makeStyle s =
       let attrs = concat $ map (contains s) [
-                               (strikeoutName,   ("StrikeThru", "true"))
-                             , (superscriptName, ("Position", "Superscript"))
-                             , (subscriptName,   ("Position", "Subscript"))
-                             , (smallCapsName,   ("Capitalization", "SmallCaps"))
+                               (Strikeout,   ("StrikeThru", "true"))
+                             , (Superscript, ("Position", "Superscript"))
+                             , (Subscript,   ("Position", "Subscript"))
+                             , (SmallCaps,   ("Capitalization", "SmallCaps"))
                              ]
-          attrs' | isInfixOf emphName s && isInfixOf strongName s = ("FontStyle", "Bold Italic") : attrs
-                 | isInfixOf strongName s                         = ("FontStyle", "Bold") : attrs
-                 | isInfixOf emphName s                           = ("FontStyle", "Italic") : attrs
-                 | otherwise                                      = attrs
+          attrs' | Italic `elem` s && Bold `elem` s = ("FontStyle", "Bold Italic") : attrs
+                 | Bold   `elem` s                  = ("FontStyle", "Bold") : attrs
+                 | Italic `elem` s                  = ("FontStyle", "Italic") : attrs
+                 | otherwise                        = attrs
           props = inTags True "Properties" [] $
                     inTags False "BasedOn" [("type", "object")] (text "$ID/NormalCharacterStyle") $$ font
                   where
                     font =
-                      if isInfixOf codeName s
+                      if Code `elem` s
                          then monospacedFont
                          else empty
-      in  inTags True "CharacterStyle" ([("Self", "CharacterStyle/"++s), ("Name", s)] ++ attrs') props
+          stlStr = showCharStyle s
+      in  inTags True "CharacterStyle" ([("Self", "CharacterStyle/"++stlStr), ("Name", stlStr)] ++ attrs') props
 
 -- | Escape colon characters as %3a
 escapeColons :: String -> String
@@ -283,34 +254,34 @@ hyperlinksToDoc (x:xs) = hyp x $$ hyperlinksToDoc xs
 
 
 -- | Convert a list of Pandoc blocks to ICML.
-blocksToICML :: WriterOptions -> Style -> [Block] -> WS Doc
+blocksToICML :: WriterOptions -> ParStyle -> [P.Block] -> WS Doc
 blocksToICML opts style lst = do
   docs <- mapM (blockToICML opts style) lst
   return $ intersperseBrs docs
 
 -- | Convert a Pandoc block element to ICML.
-blockToICML :: WriterOptions -> Style -> Block -> WS Doc
-blockToICML opts style (Plain lst) = parStyle opts style lst
+blockToICML :: WriterOptions -> ParStyle -> P.Block -> WS Doc
+blockToICML opts style (P.Plain lst) = parStyle opts style lst
 -- title beginning with fig: indicates that the image is a figure
-blockToICML opts style (Para img@[Image _ txt (_,'f':'i':'g':':':_)]) = do
-  figure  <- parStyle opts (figureName:style) img
-  caption <- parStyle opts (imgCaptionName:style) txt
+blockToICML opts style (P.Para img@[P.Image _ txt (_,'f':'i':'g':':':_)]) = do
+  figure  <- parStyle opts (Figure:style) img
+  caption <- parStyle opts (Caption:style) txt
   return $ intersperseBrs [figure, caption]
-blockToICML opts style (Para lst) = parStyle opts (paragraphName:style) lst
-blockToICML opts style (CodeBlock _ str) = parStyle opts (codeBlockName:style) $ [Str str]
-blockToICML _ _ (RawBlock f str)
-  | f == Format "icml" = return $ text str
+blockToICML opts style (P.Para lst) = parStyle opts (Paragraph:style) lst
+blockToICML opts style (P.CodeBlock _ str) = parStyle opts (CodeBlock:style) $ [P.Str str]
+blockToICML _ _ (P.RawBlock f str)
+  | f == P.Format "icml" = return $ text str
   | otherwise          = return empty
-blockToICML opts style (BlockQuote blocks) = blocksToICML opts (blockQuoteName:style) blocks
-blockToICML opts style (OrderedList attribs lst) = listItemsToICML opts orderedListName style (Just attribs) lst
-blockToICML opts style (BulletList lst) = listItemsToICML opts bulletListName style Nothing lst
-blockToICML opts style (DefinitionList lst) = intersperseBrs `fmap` mapM (definitionListItemToICML opts style) lst
-blockToICML opts style (Header lvl _ lst) =
-  let stl = (headerName ++ show lvl):style
+blockToICML opts style (P.BlockQuote blocks) = blocksToICML opts (Blockquote:style) blocks
+blockToICML opts style (P.OrderedList attribs lst) = listItemsToICML opts NumList style (Just attribs) lst
+blockToICML opts style (P.BulletList lst) = listItemsToICML opts BulList style Nothing lst
+blockToICML opts style (P.DefinitionList lst) = intersperseBrs `fmap` mapM (definitionListItemToICML opts style) lst
+blockToICML opts style (P.Header lvl _ lst) =
+  let stl = (Header lvl):style
   in parStyle opts stl lst
-blockToICML _ _ HorizontalRule = return empty -- we could insert a page break instead
-blockToICML opts style (Table caption aligns widths headers rows) =
-  let style' = tableName : style
+blockToICML _ _ P.HorizontalRule = return empty -- we could insert a page break instead
+blockToICML opts style (P.Table caption aligns widths headers rows) =
+  let style' = TablePar : style
       noHeader  = all null headers
       nrHeaders = if noHeader
                      then "0"
@@ -325,12 +296,12 @@ blockToICML opts style (Table caption aligns widths headers rows) =
       colsToICML [] _ _ = return empty
       colsToICML (cell:rest) rowNr colNr = do
         let stl  = if rowNr == 0 && not noHeader
-                      then tableHeaderName:style'
+                      then TableHeader:style'
                       else style'
             alig = aligns !! colNr
-            stl' | alig == AlignLeft = alignLeftName : stl
-                 | alig == AlignRight = alignRightName : stl
-                 | alig == AlignCenter = alignCenterName : stl
+            stl' | alig == P.AlignLeft = LeftAlign : stl
+                 | alig == P.AlignRight = RightAlign : stl
+                 | alig == P.AlignCenter = CenterAlign : stl
                  | otherwise = stl
         c <- blocksToICML opts stl' cell
         let cl = return $ inTags True "Cell"
@@ -352,12 +323,12 @@ blockToICML opts style (Table caption aligns widths headers rows) =
                        , ("BodyRowCount", show nrRows)
                        , ("ColumnCount", show nrCols)
                        ] (colDescs $$ cells)
-      liftM2 ($$) tableDoc $ parStyle opts (tableCaptionName:style) caption
-blockToICML opts style (Div _ lst) = blocksToICML opts style lst
-blockToICML _ _ Null = return empty
+      liftM2 ($$) tableDoc $ parStyle opts (TableCaption:style) caption
+blockToICML opts style (P.Div _ lst) = blocksToICML opts style lst
+blockToICML _ _ P.Null = return empty
 
 -- | Convert a list of lists of blocks to ICML list items.
-listItemsToICML :: WriterOptions -> String -> Style -> Maybe ListAttributes -> [[Block]] -> WS Doc
+listItemsToICML :: WriterOptions -> ParName -> ParStyle -> Maybe P.ListAttributes -> [[P.Block]] -> WS Doc
 listItemsToICML _ _ _ _ [] = return empty
 listItemsToICML opts listType style attribs (first:rest) = do
   st <- get
@@ -372,71 +343,71 @@ listItemsToICML opts listType style attribs (first:rest) = do
   return $ intersperseBrs docs
 
 -- | Convert a list of blocks to ICML list items.
-listItemToICML :: WriterOptions -> Style -> Bool-> Maybe ListAttributes -> [Block] -> WS Doc
+listItemToICML :: WriterOptions -> ParStyle -> Bool -> Maybe P.ListAttributes -> [P.Block] -> WS Doc
 listItemToICML opts style isFirst attribs item =
-  let makeNumbStart (Just (beginsWith, numbStl, _)) =
-        let doN DefaultStyle = []
-            doN LowerRoman = [lowerRomanName]
-            doN UpperRoman = [upperRomanName]
-            doN LowerAlpha = [lowerAlphaName]
-            doN UpperAlpha = [upperAlphaName]
+  let makeNumbStart (Just (i, numbStl, _)) =
+        let doN P.DefaultStyle = []
+            doN P.LowerRoman = [ListLowerRoman]
+            doN P.UpperRoman = [ListUpperRoman]
+            doN P.LowerAlpha = [ListLowerAlpha]
+            doN P.UpperAlpha = [ListUpperAlpha]
             doN _ = []
-            bw = if beginsWith > 1
-                    then [beginsWithName ++ show beginsWith]
+            bw = if i > 1
+                    then [BeginsWith i]
                     else []
         in  doN numbStl ++ bw
       makeNumbStart Nothing = []
       stl = if isFirst
-               then firstListItemName:style
+               then First:style
                else style
       stl' = makeNumbStart attribs ++ stl
   in  if length item > 1
          then do
-           let insertTab (Para lst) = blockToICML opts (subListParName:style) $ Para $ (Str "\t"):lst
+           let insertTab (P.Para lst) = blockToICML opts (ListSubParagraph:style) $ P.Para $ (P.Str "\t"):lst
                insertTab block      = blockToICML opts style block
            f <- blockToICML opts stl' $ head item
            r <- mapM insertTab $ tail item
            return $ intersperseBrs (f : r)
          else blocksToICML opts stl' item
 
-definitionListItemToICML :: WriterOptions -> Style -> ([Inline],[[Block]]) -> WS Doc
+definitionListItemToICML :: WriterOptions -> ParStyle -> ([P.Inline],[[P.Block]]) -> WS Doc
 definitionListItemToICML opts style (term,defs) = do
-  term' <- parStyle opts (defListTermName:style) term
-  defs' <- mapM (blocksToICML opts (defListDefName:style)) defs
+  term' <- parStyle opts (DefListTerm:style) term
+  defs' <- mapM (blocksToICML opts (DefListDef:style)) defs
   return $ intersperseBrs $ (term' : defs')
 
 
 -- | Convert a list of inline elements to ICML.
-inlinesToICML :: WriterOptions -> Style -> [Inline] -> WS Doc
+inlinesToICML :: WriterOptions -> CharStyle -> [P.Inline] -> WS Doc
 inlinesToICML opts style lst = vcat `fmap` mapM (inlineToICML opts style) (mergeSpaces lst)
 
 -- | Convert an inline element to ICML.
-inlineToICML :: WriterOptions -> Style -> Inline -> WS Doc
-inlineToICML _    style (Str str) = charStyle style $ text $ escapeStringForXML str
-inlineToICML opts style (Emph lst) = inlinesToICML opts (emphName:style) lst
-inlineToICML opts style (Strong lst) = inlinesToICML opts (strongName:style) lst
-inlineToICML opts style (Strikeout lst) = inlinesToICML opts (strikeoutName:style) lst
-inlineToICML opts style (Superscript lst) = inlinesToICML opts (superscriptName:style) lst
-inlineToICML opts style (Subscript lst) = inlinesToICML opts (subscriptName:style) lst
-inlineToICML opts style (SmallCaps lst) = inlinesToICML opts (smallCapsName:style) lst
-inlineToICML opts style (Quoted SingleQuote lst) = inlinesToICML opts style $ [Str "‘"] ++ lst ++ [Str "’"]
-inlineToICML opts style (Quoted DoubleQuote lst) = inlinesToICML opts style $ [Str "“"] ++ lst ++ [Str "”"]
-inlineToICML opts style (Cite _ lst) = inlinesToICML opts (citeName:style) lst
-inlineToICML _    style (Code _ str) = charStyle (codeName:style) $ text $ escapeStringForXML str
-inlineToICML _    style Space = charStyle style space
-inlineToICML opts style SoftBreak =
+inlineToICML :: WriterOptions -> CharStyle -> P.Inline -> WS Doc
+inlineToICML _    style (P.Str str) = charStyle style $ text $ escapeStringForXML str
+inlineToICML opts style (P.Emph lst) = inlinesToICML opts (Italic:style) lst
+inlineToICML opts style (P.Strong lst) = inlinesToICML opts (Bold:style) lst
+inlineToICML opts style (P.Strikeout lst) = inlinesToICML opts (Strikeout:style) lst
+inlineToICML opts style (P.Superscript lst) = inlinesToICML opts (Superscript:style) lst
+inlineToICML opts style (P.Subscript lst) = inlinesToICML opts (Subscript:style) lst
+inlineToICML opts style (P.SmallCaps lst) = inlinesToICML opts (SmallCaps:style) lst
+inlineToICML opts style (P.Quoted P.SingleQuote lst) = inlinesToICML opts style $ [P.Str "‘"] ++ lst ++ [P.Str "’"]
+inlineToICML opts style (P.Quoted P.DoubleQuote lst) = inlinesToICML opts style $ [P.Str "“"] ++ lst ++ [P.Str "”"]
+inlineToICML opts style (P.Cite _ lst) = inlinesToICML opts (Cite:style) lst
+inlineToICML _    style (P.Code _ str) = charStyle (Code:style) $ text $ escapeStringForXML str
+inlineToICML _    style P.Space = charStyle style space
+inlineToICML opts style P.SoftBreak =
   case writerWrapText opts of
        WrapAuto     -> charStyle style space
        WrapNone     -> charStyle style space
        WrapPreserve -> charStyle style cr
-inlineToICML _ style LineBreak = charStyle style $ text lineSeparator
-inlineToICML opts style (Math mt str) =
+inlineToICML _ style P.LineBreak = charStyle style $ text lineSeparator
+inlineToICML opts style (P.Math mt str) =
   cat <$> mapM (inlineToICML opts style) (texMathToInlines mt str)
-inlineToICML _ _ (RawInline f str)
-  | f == Format "icml" = return $ text str
+inlineToICML _ _ (P.RawInline f str)
+  | f == P.Format "icml" = return $ text str
   | otherwise          = return empty
-inlineToICML opts style (Link _ lst (url, title)) = do
-  content <- inlinesToICML opts (linkName:style) lst
+inlineToICML opts style (P.Link _ lst (url, title)) = do
+  content <- inlinesToICML opts (Link:style) lst
   state $ \st ->
             let ident = if null $ links st
                            then 1::Int
@@ -445,15 +416,15 @@ inlineToICML opts style (Link _ lst (url, title)) = do
                 cont  = inTags True "HyperlinkTextSource"
                          [("Self","htss-"++show ident), ("Name",title), ("Hidden","false")] content
             in  (cont, newst)
-inlineToICML opts style (Image attr _ target) = imageICML opts style attr target
-inlineToICML opts style (Note lst) = footnoteToICML opts style lst
-inlineToICML opts style (Span _ lst) = inlinesToICML opts style lst
+inlineToICML opts style (P.Image attr _ target) = imageICML opts style attr target
+inlineToICML opts _ (P.Note lst) = footnoteToICML opts lst
+inlineToICML opts style (P.Span _ lst) = inlinesToICML opts style lst
 
 -- | Convert a list of block elements to an ICML footnote.
-footnoteToICML :: WriterOptions -> Style -> [Block] -> WS Doc
-footnoteToICML opts style lst =
-  let insertTab (Para ls) = blockToICML opts (footnoteName:style) $ Para $ (Str "\t"):ls
-      insertTab block     = blockToICML opts (footnoteName:style) block
+footnoteToICML :: WriterOptions -> [P.Block] -> WS Doc
+footnoteToICML opts lst =
+  let insertTab (P.Para ls) = blockToICML opts [Footnote] $ P.Para $ (P.Str "\t"):ls
+      insertTab block       = blockToICML opts [Footnote] block
   in  do
     contents <- mapM insertTab lst
     let number = inTags True "ParagraphStyleRange" [] $
@@ -463,17 +434,17 @@ footnoteToICML opts style lst =
       $ inTags True "Footnote" [] $ number $$ intersperseBrs contents
 
 -- | Auxiliary function to merge Space elements into the adjacent Strs.
-mergeSpaces :: [Inline] -> [Inline]
-mergeSpaces ((Str s):(x:((Str s'):xs))) | isSp x =
-  mergeSpaces $ Str(s++" "++s') : xs
-mergeSpaces (x:((Str s):xs)) | isSp x = mergeSpaces $ Str (" "++s) : xs
-mergeSpaces ((Str s):(x:xs)) | isSp x = mergeSpaces $ Str (s++" ") : xs
+mergeSpaces :: [P.Inline] -> [P.Inline]
+mergeSpaces ((P.Str s):(x:((P.Str s'):xs))) | isSp x =
+  mergeSpaces $ P.Str (s++" "++s') : xs
+mergeSpaces (x:((P.Str s):xs)) | isSp x = mergeSpaces $ P.Str (" "++s) : xs
+mergeSpaces ((P.Str s):(x:xs)) | isSp x = mergeSpaces $ P.Str (s++" ") : xs
 mergeSpaces (x:xs) = x : (mergeSpaces xs)
 mergeSpaces []     = []
 
-isSp :: Inline -> Bool
-isSp Space = True
-isSp SoftBreak = True
+isSp :: P.Inline -> Bool
+isSp P.Space = True
+isSp P.SoftBreak = True
 isSp _ = False
 
 -- | Intersperse line breaks
@@ -481,31 +452,37 @@ intersperseBrs :: [Doc] -> Doc
 intersperseBrs = vcat . intersperse (selfClosingTag "Br" []) . filter (not . isEmpty)
 
 -- | Wrap a list of inline elements in an ICML Paragraph Style
-parStyle :: WriterOptions -> Style -> [Inline] -> WS Doc
+parStyle :: WriterOptions -> ParStyle -> [P.Inline] -> WS Doc
 parStyle opts style lst =
-  let slipIn x y = if null y
-                      then x
-                      else x ++ " > " ++ y
-      stlStr = foldr slipIn [] $ reverse style
+  let stlStr = showParStyle style
       stl    = if null stlStr
                   then ""
                   else "ParagraphStyle/" ++ stlStr
       attrs  = ("AppliedParagraphStyle", stl)
-      attrs' =  if firstListItemName `elem` style
-                   then let ats = attrs : [("NumberingContinue", "false")]
-                            begins = filter (isPrefixOf beginsWithName) style
-                        in  if null begins
-                               then ats
-                               else let i = maybe "" id $ stripPrefix beginsWithName $ head begins
-                                    in  ("NumberingStartAt", i) : ats
+      attrs' =  if First `elem` style
+                   then case deepestBeginsWith style of
+                           Just i  -> ("NumberingStartAt", show i) : ats
+                           Nothing -> ats
                    else [attrs]
+                     where
+                       ats = attrs : [("NumberingContinue", "false")]
+                       deepestBeginsWith []                 = Nothing
+                       deepestBeginsWith ((BeginsWith i):_) = Just i
+                       deepestBeginsWith (_:xs)             = deepestBeginsWith xs
   in  do
       content <- inlinesToICML opts [] lst
       let cont = inTags True "ParagraphStyleRange" attrs' content
-      state $ \st -> (cont, st{ blockStyles = Set.insert stlStr $ blockStyles st })
+      state $ \st -> (cont, st{ blockStyles = Set.insert style $ blockStyles st })
+
+showParStyle :: ParStyle -> String
+showParStyle style = foldr slipIn [] $ reverse style
+  where
+    slipIn x y = if null y
+                    then show x
+                    else show x ++ " > " ++ y
 
 -- | Wrap a Doc in an ICML Character Style.
-charStyle :: Style -> Doc -> WS Doc
+charStyle :: CharStyle -> Doc -> WS Doc
 charStyle style content =
   let (stlStr, attrs) = styleToStrAttr style
       doc = inTags True "CharacterStyleRange" attrs $ inTagsSimple "Content" $ flush content
@@ -513,13 +490,16 @@ charStyle style content =
       state $ \st ->
         let styles = if null stlStr
                         then st
-                        else st{ inlineStyles = Set.insert stlStr $ inlineStyles st }
+                        else st{ inlineStyles = Set.insert style $ inlineStyles st }
         in  (doc, styles)
 
+showCharStyle :: CharStyle -> String
+showCharStyle = unwords . map show . Set.toAscList . Set.fromList
+
 -- | Transform a Style to a tuple of String (eliminating duplicates and ordered) and corresponding attribute.
-styleToStrAttr :: Style -> (String, [(String, String)])
+styleToStrAttr :: CharStyle -> (String, [(String, String)])
 styleToStrAttr style =
-  let stlStr = unwords $ Set.toAscList $ Set.fromList style
+  let stlStr = showCharStyle style
       stl    = if null style
                   then "$ID/NormalCharacterStyle"
                   else "CharacterStyle/" ++ stlStr
@@ -527,7 +507,7 @@ styleToStrAttr style =
   in  (stlStr, attrs)
 
 -- | Assemble an ICML Image.
-imageICML :: WriterOptions -> Style -> Attr -> Target -> WS Doc
+imageICML :: WriterOptions -> CharStyle -> P.Attr -> P.Target -> WS Doc
 imageICML opts style attr (src, _) = do
   res  <- liftIO $ fetchItem (writerSourceURL opts) src
   imgS <- case res of
@@ -547,7 +527,7 @@ imageICML opts style attr (src, _) = do
       hh = showFl $ oh / 2
       scale = showFl (imgWidth / ow) ++ " 0 0 " ++ showFl (imgHeight / oh)
       src' = if isURI src then src else "file:" ++ src
-      (stlStr, attrs) = styleToStrAttr style
+      (_, attrs) = styleToStrAttr style
       props  = inTags True "Properties" [] $ inTags True "PathGeometry" []
                  $ inTags True "GeometryPathType" [("PathOpen","false")]
                  $ inTags True "PathPointArray" []
@@ -571,4 +551,4 @@ imageICML opts style attr (src, _) = do
                  $ inTags True "Rectangle" [("Self","uec"), ("StrokeWeight", "0"),
                      ("ItemTransform", scale++" "++hw++" -"++hh)]
                  $ (props $$ image)
-  state $ \st -> (doc, st{ inlineStyles = Set.insert stlStr $ inlineStyles st } )
+  state $ \st -> (doc, st{ inlineStyles = Set.insert style $ inlineStyles st } )
