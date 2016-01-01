@@ -38,6 +38,7 @@ data WriterState = WriterState{
   , links        :: Hyperlink
   , listDepth    :: Int
   , maxListDepth :: Int
+  , stOpts       :: WriterOptions
   }
 
 type WS a = StateT WriterState IO a
@@ -49,6 +50,7 @@ defaultWriterState = WriterState{
   , links        = []
   , listDepth    = 1
   , maxListDepth = 0
+  , stOpts       = def
   }
 
 -- inline names (appear in InDesign's character styles pane)
@@ -94,16 +96,17 @@ data ParName  = Paragraph
 -- | Convert Pandoc document to string in ICML format.
 writeICML :: WriterOptions -> P.Pandoc -> IO String
 writeICML opts (P.Pandoc meta blocks) = do
-  let colwidth = if writerWrapText opts == WrapAuto
+  let sst = defaultWriterState{ stOpts = opts }
+      colwidth = if writerWrapText opts == WrapAuto
                     then Just $ writerColumns opts
                     else Nothing
       render' = render colwidth
-      renderMeta f s = liftM (render' . fst) $ runStateT (f opts [] s) defaultWriterState
+      renderMeta f s = liftM (render' . fst) $ runStateT (f [] s) sst
   metadata <- metaToJSON opts
              (renderMeta blocksToICML)
              (renderMeta inlinesToICML)
              meta
-  (doc, st) <- runStateT (blocksToICML opts [] blocks) defaultWriterState
+  (doc, st) <- runStateT (blocksToICML [] blocks) sst
   let main    = render' doc
       context = defField "body" main
               $ defField "charStyles" (render' $ charStylesToDoc $ inlineStyles st)
@@ -254,33 +257,33 @@ hyperlinksToDoc (x:xs) = hyp x $$ hyperlinksToDoc xs
 
 
 -- | Convert a list of Pandoc blocks to ICML.
-blocksToICML :: WriterOptions -> ParStyle -> [P.Block] -> WS Doc
-blocksToICML opts style lst = do
-  docs <- mapM (blockToICML opts style) lst
+blocksToICML :: ParStyle -> [P.Block] -> WS Doc
+blocksToICML style lst = do
+  docs <- mapM (blockToICML style) lst
   return $ intersperseBrs docs
 
 -- | Convert a Pandoc block element to ICML.
-blockToICML :: WriterOptions -> ParStyle -> P.Block -> WS Doc
-blockToICML opts style (P.Plain lst) = parStyle opts style lst
+blockToICML :: ParStyle -> P.Block -> WS Doc
+blockToICML style (P.Plain lst) = parStyle style lst
 -- title beginning with fig: indicates that the image is a figure
-blockToICML opts style (P.Para img@[P.Image _ txt (_,'f':'i':'g':':':_)]) = do
-  figure  <- parStyle opts (Figure:style) img
-  caption <- parStyle opts (Caption:style) txt
+blockToICML style (P.Para img@[P.Image _ txt (_,'f':'i':'g':':':_)]) = do
+  figure  <- parStyle (Figure:style) img
+  caption <- parStyle (Caption:style) txt
   return $ intersperseBrs [figure, caption]
-blockToICML opts style (P.Para lst) = parStyle opts (Paragraph:style) lst
-blockToICML opts style (P.CodeBlock _ str) = parStyle opts (CodeBlock:style) $ [P.Str str]
-blockToICML _ _ (P.RawBlock f str)
+blockToICML style (P.Para lst) = parStyle (Paragraph:style) lst
+blockToICML style (P.CodeBlock _ str) = parStyle (CodeBlock:style) $ [P.Str str]
+blockToICML _ (P.RawBlock f str)
   | f == P.Format "icml" = return $ text str
   | otherwise          = return empty
-blockToICML opts style (P.BlockQuote blocks) = blocksToICML opts (Blockquote:style) blocks
-blockToICML opts style (P.OrderedList attribs lst) = listItemsToICML opts NumList style (Just attribs) lst
-blockToICML opts style (P.BulletList lst) = listItemsToICML opts BulList style Nothing lst
-blockToICML opts style (P.DefinitionList lst) = intersperseBrs `fmap` mapM (definitionListItemToICML opts style) lst
-blockToICML opts style (P.Header lvl _ lst) =
+blockToICML style (P.BlockQuote blocks) = blocksToICML (Blockquote:style) blocks
+blockToICML style (P.OrderedList attribs lst) = listItemsToICML NumList style (Just attribs) lst
+blockToICML style (P.BulletList lst) = listItemsToICML BulList style Nothing lst
+blockToICML style (P.DefinitionList lst) = intersperseBrs `fmap` mapM (definitionListItemToICML style) lst
+blockToICML style (P.Header lvl _ lst) =
   let stl = (Header lvl):style
-  in parStyle opts stl lst
-blockToICML _ _ P.HorizontalRule = return empty -- we could insert a page break instead
-blockToICML opts style (P.Table caption aligns widths headers rows) =
+  in parStyle stl lst
+blockToICML _ P.HorizontalRule = return empty -- we could insert a page break instead
+blockToICML style (P.Table caption aligns widths headers rows) =
   let style' = TablePar : style
       noHeader  = all null headers
       nrHeaders = if noHeader
@@ -303,7 +306,7 @@ blockToICML opts style (P.Table caption aligns widths headers rows) =
                  | alig == P.AlignRight = RightAlign : stl
                  | alig == P.AlignCenter = CenterAlign : stl
                  | otherwise = stl
-        c <- blocksToICML opts stl' cell
+        c <- blocksToICML stl' cell
         let cl = return $ inTags True "Cell"
                    [("Name", show colNr ++":"++ show rowNr), ("AppliedCellStyle","CellStyle/Cell")] c
         liftM2 ($$) cl $ colsToICML rest rowNr (colNr+1)
@@ -323,19 +326,19 @@ blockToICML opts style (P.Table caption aligns widths headers rows) =
                        , ("BodyRowCount", show nrRows)
                        , ("ColumnCount", show nrCols)
                        ] (colDescs $$ cells)
-      liftM2 ($$) tableDoc $ parStyle opts (TableCaption:style) caption
-blockToICML opts style (P.Div _ lst) = blocksToICML opts style lst
-blockToICML _ _ P.Null = return empty
+      liftM2 ($$) tableDoc $ parStyle (TableCaption:style) caption
+blockToICML style (P.Div _ lst) = blocksToICML style lst
+blockToICML _ P.Null = return empty
 
 -- | Convert a list of lists of blocks to ICML list items.
-listItemsToICML :: WriterOptions -> ParName -> ParStyle -> Maybe P.ListAttributes -> [[P.Block]] -> WS Doc
-listItemsToICML _ _ _ _ [] = return empty
-listItemsToICML opts listType style attribs (first:rest) = do
+listItemsToICML :: ParName -> ParStyle -> Maybe P.ListAttributes -> [[P.Block]] -> WS Doc
+listItemsToICML _ _ _ [] = return empty
+listItemsToICML listType style attribs (first:rest) = do
   st <- get
   put st{ listDepth = 1 + listDepth st}
   let stl = listType:style
-  let f = listItemToICML opts stl True attribs first
-  let r = map (listItemToICML opts stl False attribs) rest
+  let f = listItemToICML stl True attribs first
+  let r = map (listItemToICML stl False attribs) rest
   docs <- sequence $ f:r
   s    <- get
   let maxD = max (maxListDepth s) (listDepth s)
@@ -343,8 +346,8 @@ listItemsToICML opts listType style attribs (first:rest) = do
   return $ intersperseBrs docs
 
 -- | Convert a list of blocks to ICML list items.
-listItemToICML :: WriterOptions -> ParStyle -> Bool -> Maybe P.ListAttributes -> [P.Block] -> WS Doc
-listItemToICML opts style isFirst attribs item =
+listItemToICML :: ParStyle -> Bool -> Maybe P.ListAttributes -> [P.Block] -> WS Doc
+listItemToICML style isFirst attribs item =
   let makeNumbStart (Just (i, numbStl, _)) =
         let doN P.DefaultStyle = []
             doN P.LowerRoman = [ListLowerRoman]
@@ -363,51 +366,52 @@ listItemToICML opts style isFirst attribs item =
       stl' = makeNumbStart attribs ++ stl
   in  if length item > 1
          then do
-           let insertTab (P.Para lst) = blockToICML opts (ListSubParagraph:style) $ P.Para $ (P.Str "\t"):lst
-               insertTab block      = blockToICML opts style block
-           f <- blockToICML opts stl' $ head item
+           let insertTab (P.Para lst) = blockToICML (ListSubParagraph:style) $ P.Para $ (P.Str "\t"):lst
+               insertTab block      = blockToICML style block
+           f <- blockToICML stl' $ head item
            r <- mapM insertTab $ tail item
            return $ intersperseBrs (f : r)
-         else blocksToICML opts stl' item
+         else blocksToICML stl' item
 
-definitionListItemToICML :: WriterOptions -> ParStyle -> ([P.Inline],[[P.Block]]) -> WS Doc
-definitionListItemToICML opts style (term,defs) = do
-  term' <- parStyle opts (DefListTerm:style) term
-  defs' <- mapM (blocksToICML opts (DefListDef:style)) defs
+definitionListItemToICML :: ParStyle -> ([P.Inline],[[P.Block]]) -> WS Doc
+definitionListItemToICML style (term,defs) = do
+  term' <- parStyle (DefListTerm:style) term
+  defs' <- mapM (blocksToICML (DefListDef:style)) defs
   return $ intersperseBrs $ (term' : defs')
 
 
 -- | Convert a list of inline elements to ICML.
-inlinesToICML :: WriterOptions -> CharStyle -> [P.Inline] -> WS Doc
-inlinesToICML opts style lst = vcat `fmap` mapM (inlineToICML opts style) (mergeSpaces lst)
+inlinesToICML :: CharStyle -> [P.Inline] -> WS Doc
+inlinesToICML style lst = vcat `fmap` mapM (inlineToICML style) (mergeSpaces lst)
 
 -- | Convert an inline element to ICML.
-inlineToICML :: WriterOptions -> CharStyle -> P.Inline -> WS Doc
-inlineToICML _    style (P.Str str) = charStyle style $ text $ escapeStringForXML str
-inlineToICML opts style (P.Emph lst) = inlinesToICML opts (Italic:style) lst
-inlineToICML opts style (P.Strong lst) = inlinesToICML opts (Bold:style) lst
-inlineToICML opts style (P.Strikeout lst) = inlinesToICML opts (Strikeout:style) lst
-inlineToICML opts style (P.Superscript lst) = inlinesToICML opts (Superscript:style) lst
-inlineToICML opts style (P.Subscript lst) = inlinesToICML opts (Subscript:style) lst
-inlineToICML opts style (P.SmallCaps lst) = inlinesToICML opts (SmallCaps:style) lst
-inlineToICML opts style (P.Quoted P.SingleQuote lst) = inlinesToICML opts style $ [P.Str "‘"] ++ lst ++ [P.Str "’"]
-inlineToICML opts style (P.Quoted P.DoubleQuote lst) = inlinesToICML opts style $ [P.Str "“"] ++ lst ++ [P.Str "”"]
-inlineToICML opts style (P.Cite _ lst) = inlinesToICML opts (Cite:style) lst
-inlineToICML _    style (P.Code _ str) = charStyle (Code:style) $ text $ escapeStringForXML str
-inlineToICML _    style P.Space = charStyle style space
-inlineToICML opts style P.SoftBreak =
-  case writerWrapText opts of
+inlineToICML :: CharStyle -> P.Inline -> WS Doc
+inlineToICML style (P.Str str) = charStyle style $ text $ escapeStringForXML str
+inlineToICML style (P.Emph lst) = inlinesToICML (Italic:style) lst
+inlineToICML style (P.Strong lst) = inlinesToICML (Bold:style) lst
+inlineToICML style (P.Strikeout lst) = inlinesToICML (Strikeout:style) lst
+inlineToICML style (P.Superscript lst) = inlinesToICML (Superscript:style) lst
+inlineToICML style (P.Subscript lst) = inlinesToICML (Subscript:style) lst
+inlineToICML style (P.SmallCaps lst) = inlinesToICML (SmallCaps:style) lst
+inlineToICML style (P.Quoted P.SingleQuote lst) = inlinesToICML style $ [P.Str "‘"] ++ lst ++ [P.Str "’"]
+inlineToICML style (P.Quoted P.DoubleQuote lst) = inlinesToICML style $ [P.Str "“"] ++ lst ++ [P.Str "”"]
+inlineToICML style (P.Cite _ lst) = inlinesToICML (Cite:style) lst
+inlineToICML style (P.Code _ str) = charStyle (Code:style) $ text $ escapeStringForXML str
+inlineToICML style P.Space = charStyle style space
+inlineToICML style P.SoftBreak = do
+  st <- get
+  case writerWrapText (stOpts st) of
        WrapAuto     -> charStyle style space
        WrapNone     -> charStyle style space
        WrapPreserve -> charStyle style cr
-inlineToICML _ style P.LineBreak = charStyle style $ text lineSeparator
-inlineToICML opts style (P.Math mt str) =
-  cat <$> mapM (inlineToICML opts style) (texMathToInlines mt str)
-inlineToICML _ _ (P.RawInline f str)
+inlineToICML style P.LineBreak = charStyle style $ text lineSeparator
+inlineToICML style (P.Math mt str) =
+  cat <$> mapM (inlineToICML style) (texMathToInlines mt str)
+inlineToICML _ (P.RawInline f str)
   | f == P.Format "icml" = return $ text str
   | otherwise          = return empty
-inlineToICML opts style (P.Link _ lst (url, title)) = do
-  content <- inlinesToICML opts (Link:style) lst
+inlineToICML style (P.Link _ lst (url, title)) = do
+  content <- inlinesToICML (Link:style) lst
   state $ \st ->
             let ident = if null $ links st
                            then 1::Int
@@ -416,15 +420,15 @@ inlineToICML opts style (P.Link _ lst (url, title)) = do
                 cont  = inTags True "HyperlinkTextSource"
                          [("Self","htss-"++show ident), ("Name",title), ("Hidden","false")] content
             in  (cont, newst)
-inlineToICML opts style (P.Image attr _ target) = imageICML opts style attr target
-inlineToICML opts _ (P.Note lst) = footnoteToICML opts lst
-inlineToICML opts style (P.Span _ lst) = inlinesToICML opts style lst
+inlineToICML style (P.Image attr _ target) = imageICML style attr target
+inlineToICML _ (P.Note lst) = footnoteToICML lst
+inlineToICML style (P.Span _ lst) = inlinesToICML style lst
 
 -- | Convert a list of block elements to an ICML footnote.
-footnoteToICML :: WriterOptions -> [P.Block] -> WS Doc
-footnoteToICML opts lst =
-  let insertTab (P.Para ls) = blockToICML opts [Footnote] $ P.Para $ (P.Str "\t"):ls
-      insertTab block       = blockToICML opts [Footnote] block
+footnoteToICML :: [P.Block] -> WS Doc
+footnoteToICML lst =
+  let insertTab (P.Para ls) = blockToICML [Footnote] $ P.Para $ (P.Str "\t"):ls
+      insertTab block       = blockToICML [Footnote] block
   in  do
     contents <- mapM insertTab lst
     let number = inTags True "ParagraphStyleRange" [] $
@@ -452,8 +456,8 @@ intersperseBrs :: [Doc] -> Doc
 intersperseBrs = vcat . intersperse (selfClosingTag "Br" []) . filter (not . isEmpty)
 
 -- | Wrap a list of inline elements in an ICML Paragraph Style
-parStyle :: WriterOptions -> ParStyle -> [P.Inline] -> WS Doc
-parStyle opts style lst =
+parStyle :: ParStyle -> [P.Inline] -> WS Doc
+parStyle style lst =
   let stlStr = showParStyle style
       stl    = if null stlStr
                   then ""
@@ -470,7 +474,7 @@ parStyle opts style lst =
                        deepestBeginsWith ((BeginsWith i):_) = Just i
                        deepestBeginsWith (_:xs)             = deepestBeginsWith xs
   in  do
-      content <- inlinesToICML opts [] lst
+      content <- inlinesToICML [] lst
       let cont = inTags True "ParagraphStyleRange" attrs' content
       state $ \st -> (cont, st{ blockStyles = Set.insert style $ blockStyles st })
 
@@ -507,8 +511,10 @@ styleToStrAttr style =
   in  (stlStr, attrs)
 
 -- | Assemble an ICML Image.
-imageICML :: WriterOptions -> CharStyle -> P.Attr -> P.Target -> WS Doc
-imageICML opts style attr (src, _) = do
+imageICML :: CharStyle -> P.Attr -> P.Target -> WS Doc
+imageICML style attr (src, _) = do
+  st <- get
+  let opts = stOpts st
   res  <- liftIO $ fetchItem (writerSourceURL opts) src
   imgS <- case res of
             Left (_) -> do
@@ -551,4 +557,4 @@ imageICML opts style attr (src, _) = do
                  $ inTags True "Rectangle" [("Self","uec"), ("StrokeWeight", "0"),
                      ("ItemTransform", scale++" "++hw++" -"++hh)]
                  $ (props $$ image)
-  state $ \st -> (doc, st{ inlineStyles = Set.insert style $ inlineStyles st } )
+  state $ \st' -> (doc, st{ inlineStyles = Set.insert style $ inlineStyles st' } )
