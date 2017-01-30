@@ -50,6 +50,7 @@ import Text.Pandoc.Highlighting ( highlight )
 import Text.Pandoc.Walk
 import Text.Pandoc.Error (PandocError)
 import Text.XML.Light as XML
+import Text.XML.Light.Cursor as XC
 import Text.TeXMath
 import Text.Pandoc.Readers.Docx.StyleMap
 import Control.Monad.Reader
@@ -157,6 +158,11 @@ nodename s = QName{ qName = name, qURI = Nothing, qPrefix = prefix }
  where (name, prefix) = case break (==':') s of
                              (xs,[])    -> (xs, Nothing)
                              (ys, _:zs) -> (zs, Just ys)
+
+wnodename :: String -> QName
+wnodename s = QName{ qName = s
+                   , qURI = Just "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+                   , qPrefix = Just "w" }
 
 toLazy :: B.ByteString -> BL.ByteString
 toLazy = BL.fromChunks . (:[])
@@ -269,6 +275,19 @@ writeDocx opts doc@(Pandoc meta _) = do
         Just (MetaString "rtl")        -> True
         Just (MetaInlines [Str "rtl"]) -> True
         _                              -> False
+
+  let lang = case lookupMeta "lang" meta of
+        Just (MetaString s) -> Just s
+        _                   -> Nothing
+  let langElm = styledoc >>= child "docDefaults" >>= child "rPrDefault" >>= child "rPr" >>= child "lang"
+  -- see https://hackage.haskell.org/package/xml/docs/Text-XML-Light-Cursor.html how to modify tree..?
+  -- see also Writers/FB2.hs -> XC
+      cursor = XC.fromElement langElm
+      XC.modifyContent
+      elAttribs langElm
+    where
+      child n  = XML.findChild (wnodename n)
+      langAttr = XML.Attr (wnodename "val") lang
 
   let env = defaultWriterEnv {
           envRTL = isRTLmeta
