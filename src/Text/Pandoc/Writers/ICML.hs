@@ -21,7 +21,7 @@ import Prelude
 import Control.Monad.Except (catchError)
 import Control.Monad.State.Strict
 import Data.List (intersperse, isInfixOf, isPrefixOf, stripPrefix)
-import Data.Maybe (fromMaybe, maybeToList)
+import Data.Maybe (fromMaybe, listToMaybe, maybeToList)
 import qualified Data.Set as Set
 import Data.Text as Text (breakOnAll, pack)
 import Data.Text (Text)
@@ -39,12 +39,17 @@ import Text.Pandoc.Writers.Shared
 import Text.Pandoc.XML
 
 type Style = [String]
-type Hyperlink = [(Int, String)]
 
-data WriterState = WriterState{
+data Hyperlink = Hyperlink {
+    identifier   :: Int
+  , hyperref     :: String
+  , internalLink :: Bool
+  }
+
+data WriterState = WriterState {
     blockStyles  :: Set.Set String
   , inlineStyles :: Set.Set String
-  , links        :: Hyperlink
+  , links        :: [Hyperlink]
   , listDepth    :: Int
   , maxListDepth :: Int
   }
@@ -52,7 +57,7 @@ data WriterState = WriterState{
 type WS m = StateT WriterState m
 
 defaultWriterState :: WriterState
-defaultWriterState = WriterState{
+defaultWriterState = WriterState {
     blockStyles  = Set.empty
   , inlineStyles = Set.empty
   , links        = []
@@ -272,20 +277,36 @@ escapeColons = concatMap repl
     repl ':' = "%3a"
     repl c = [c]
 
--- | Convert a list of (identifier, url) pairs to the ICML listing of hyperlinks.
-hyperlinksToDoc :: Hyperlink -> Doc
-hyperlinksToDoc = vcat . map hyp
+-- | Convert a list of Hyperlinks to the ICML listing of hyperlinks.
+hyperlinksToDoc :: [Hyperlink] -> Doc
+hyperlinksToDoc = vcat . map hyperlinkToDoc
+
+-- | Convert a single Hyperlink to an ICML link destination
+hyperlinkToDoc :: Hyperlink -> Doc
+hyperlinkToDoc (Hyperlink ident href isInternal) = hdest $$ hlink
   where
-    hyp (ident, url) = hdest $$ hlink
-      where
-        hdest = selfClosingTag "HyperlinkURLDestination"
-                  -- HyperlinkURLDestination with more than one colon crashes CS6, so we use `escapeColons` below
-                  [("Self", "HyperlinkURLDestination/"++escapeColons url), ("Name","link"), ("DestinationURL",url), ("DestinationUniqueKey","1")]
-        hlink = inTags True "Hyperlink" [("Self","uf-"++show ident),  ("Name",url),
-                    ("Source","htss-"++show ident), ("Visible","true"), ("DestinationUniqueKey","1")]
-                  $ inTags True "Properties" []
-                  $ inTags False "BorderColor" [("type","enumeration")] (text "Black")
-                  $$ inTags False "Destination" [("type","object")] (text $ "HyperlinkURLDestination/"++escapeColons (escapeStringForXML url))
+    -- HyperlinkURLDestination with more than one colon crashes CS6,
+    -- so we use `escapeColons` below
+    hdest = selfClosingTag destType [
+        ("Self", destType ++ "/" ++ escapeColons href)
+      , ("Name", "link")
+      , ("DestinationURL", href)
+      , ("DestinationUniqueKey", idnt)
+      ]
+    hlink = inTags True "Hyperlink" [
+        ("Self", "uf-" ++ idnt)
+      , ("Name", href)
+      , ("Source", "htss-" ++ idnt)
+      , ("Visible", "true")
+      , ("DestinationUniqueKey", idnt)
+      ] $ inTags True "Properties" []
+        $ inTags False "BorderColor" [("type", "enumeration")] (text "Black")
+        $$ inTags False "Destination" [("type", "object")]
+             (text $ destType ++ "/" ++ escapeColons (escapeStringForXML href))
+    destType = if isInternal
+               then "HyperlinkTextDestination"
+               else "HyperlinkURLDestination"
+    idnt = show ident
 
 -- | Key for specifying user-defined styles
 dynamicStyleKey :: String
@@ -456,16 +477,22 @@ inlineToICML _ _ il@(RawInline f str)
   | otherwise          = do
       report $ InlineNotRendered il
       return empty
-inlineToICML opts style (Link _ lst (url, title)) = do
+inlineToICML opts style (Link _ lst (href, title)) = do
   content <- inlinesToICML opts (linkName:style) lst
+  let isInternalLink ('#':_) = True
+      isInternalLink _ = False
+      isInternal = isInternalLink href
+      (tagName, tagAttrs) = if isInternal
+                            then ( "CrossReferenceSource"
+                                 , [("AppliedFormat", "pandoc_cross_reference_format")] )
+                            else ("HyperlinkTextSource", [])
   state $ \st ->
-            let ident = if null $ links st
-                           then 1::Int
-                           else 1 + fst (head $ links st)
-                newst = st{ links = (ident, url):links st }
-                cont  = inTags True "HyperlinkTextSource"
-                         [("Self","htss-"++show ident), ("Name",title), ("Hidden","false")] content
-            in  (cont, newst)
+    let ident = maybe 1 ((+1) . identifier) $ listToMaybe $ links st
+        link  = Hyperlink {identifier=ident, hyperref=href, internalLink=isInternal}
+        tag   = inTags True tagName ( tagAttrs ++
+                  [("Self","htss-"++show ident), ("Name",title), ("Hidden","false")]
+                ) content
+    in  (tag, st{links = link:links st})
 inlineToICML opts style (Image attr _ target) = imageICML opts style attr target
 inlineToICML opts style (Note lst) = footnoteToICML opts style lst
 inlineToICML opts style (Span (_, _, kvs) lst) =

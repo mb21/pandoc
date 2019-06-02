@@ -28,6 +28,10 @@
   <RootCellStyleGroup Self="pandoc_cell_styles">
     <CellStyle Self="CellStyle/Cell" AppliedParagraphStyle="ParagraphStyle/$$ID/[No paragraph style]" Name="Cell" />
   </RootCellStyleGroup>
+  <CrossReferenceFormat Self="pandoc_cross_reference_format" Name="Text Anchor Name">
+    <BuildingBlock Self="pandoc_reference_format_block" BlockType="BookmarkNameBuildingBlock"
+        CustomText="$$ID/" AppliedDelimiter="$$ID/" IncludeDelimiter="false" />
+  </CrossReferenceFormat>
   <Story Self="pandoc_story"
       TrackChanges="false"
       StoryTitle="$if(title-prefix)$$title-prefix$ – $endif$$pagetitle$"
