@@ -2,432 +2,432 @@
 <?aid style="50" type="snippet" readerVersion="6.0" featureSet="513" product="8.0(370)" ?>
 <?aid SnippetType="InCopyInterchange"?>
 <Document DOMVersion="8.0" Self="pandoc_doc">
-    <RootCharacterStyleGroup Self="pandoc_character_styles">
-      <CharacterStyle Self="$ID/NormalCharacterStyle" Name="Default" />
-      <CharacterStyle Self="CharacterStyle/" Name="">
-        <Properties>
-          <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
-        </Properties>
-      </CharacterStyle>
-      <CharacterStyle Self="CharacterStyle/Bold" Name="Bold" FontStyle="Bold">
-        <Properties>
-          <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
-        </Properties>
-      </CharacterStyle>
-      <CharacterStyle Self="CharacterStyle/Bold Italic" Name="Bold Italic" FontStyle="Bold Italic">
-        <Properties>
-          <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
-        </Properties>
-      </CharacterStyle>
-      <CharacterStyle Self="CharacterStyle/Code" Name="Code">
-        <Properties>
-          <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
-          <AppliedFont type="string">Courier New</AppliedFont>
-        </Properties>
-      </CharacterStyle>
-      <CharacterStyle Self="CharacterStyle/Italic" Name="Italic" FontStyle="Italic">
-        <Properties>
-          <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
-        </Properties>
-      </CharacterStyle>
-      <CharacterStyle Self="CharacterStyle/Italic Link" Name="Italic Link" FontStyle="Italic">
-        <Properties>
-          <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
-        </Properties>
-      </CharacterStyle>
-      <CharacterStyle Self="CharacterStyle/Italic Strikeout" Name="Italic Strikeout" FontStyle="Italic" StrikeThru="true">
-        <Properties>
-          <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
-        </Properties>
-      </CharacterStyle>
-      <CharacterStyle Self="CharacterStyle/Italic Superscript" Name="Italic Superscript" FontStyle="Italic" Position="Superscript">
-        <Properties>
-          <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
-        </Properties>
-      </CharacterStyle>
-      <CharacterStyle Self="CharacterStyle/Link" Name="Link">
-        <Properties>
-          <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
-        </Properties>
-      </CharacterStyle>
-      <CharacterStyle Self="CharacterStyle/Strikeout" Name="Strikeout" StrikeThru="true">
-        <Properties>
-          <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
-        </Properties>
-      </CharacterStyle>
-      <CharacterStyle Self="CharacterStyle/Subscript" Name="Subscript" Position="Subscript">
-        <Properties>
-          <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
-        </Properties>
-      </CharacterStyle>
-      <CharacterStyle Self="CharacterStyle/Superscript" Name="Superscript" Position="Superscript">
-        <Properties>
-          <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
-        </Properties>
-      </CharacterStyle> 
-    </RootCharacterStyleGroup>
-    <RootParagraphStyleGroup Self="pandoc_paragraph_styles">
-      <ParagraphStyle Self="$ID/NormalParagraphStyle" Name="$ID/NormalParagraphStyle"
-          SpaceBefore="6" SpaceAfter="6"> <!-- paragraph spacing -->
-        <Properties>
-          <TabList type="list">
-            <ListItem type="record">
-              <Alignment type="enumeration">LeftAlign</Alignment>
-              <AlignmentCharacter type="string">.</AlignmentCharacter>
-              <Leader type="string"></Leader>
-              <Position type="unit">10</Position> <!-- first tab stop -->
-            </ListItem>
-          </TabList>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/" Name="" LeftIndent="0">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/Blockquote &gt; Blockquote &gt; Paragraph" Name="Blockquote &gt; Blockquote &gt; Paragraph" LeftIndent="30">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/Blockquote &gt; CodeBlock" Name="Blockquote &gt; CodeBlock" LeftIndent="10">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <AppliedFont type="string">Courier New</AppliedFont>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/Blockquote &gt; NumList" Name="Blockquote &gt; NumList" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/Blockquote &gt; NumList &gt; first" Name="Blockquote &gt; NumList &gt; first" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/Blockquote &gt; Paragraph" Name="Blockquote &gt; Paragraph" LeftIndent="10">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/BulList" Name="BulList" BulletsAndNumberingListType="BulletList" LeftIndent="0">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <TabList type="list">
-            <ListItem type="record">
-              <Alignment type="enumeration">LeftAlign</Alignment>
-              <AlignmentCharacter type="string">.</AlignmentCharacter>
-              <Leader type="string" />
-              <Position type="unit">10</Position>
-            </ListItem>
-          </TabList>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/BulList &gt; BulList &gt; BulList &gt; first" Name="BulList &gt; BulList &gt; BulList &gt; first" BulletsAndNumberingListType="BulletList" LeftIndent="20">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <TabList type="list">
-            <ListItem type="record">
-              <Alignment type="enumeration">LeftAlign</Alignment>
-              <AlignmentCharacter type="string">.</AlignmentCharacter>
-              <Leader type="string" />
-              <Position type="unit">30</Position>
-            </ListItem>
-          </TabList>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/BulList &gt; BulList &gt; Paragraph" Name="BulList &gt; BulList &gt; Paragraph" BulletsAndNumberingListType="BulletList" LeftIndent="10">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <TabList type="list">
-            <ListItem type="record">
-              <Alignment type="enumeration">LeftAlign</Alignment>
-              <AlignmentCharacter type="string">.</AlignmentCharacter>
-              <Leader type="string" />
-              <Position type="unit">20</Position>
-            </ListItem>
-          </TabList>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/BulList &gt; BulList &gt; first" Name="BulList &gt; BulList &gt; first" BulletsAndNumberingListType="BulletList" LeftIndent="10">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <TabList type="list">
-            <ListItem type="record">
-              <Alignment type="enumeration">LeftAlign</Alignment>
-              <AlignmentCharacter type="string">.</AlignmentCharacter>
-              <Leader type="string" />
-              <Position type="unit">20</Position>
-            </ListItem>
-          </TabList>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/BulList &gt; BulList &gt; first &gt; Paragraph" Name="BulList &gt; BulList &gt; first &gt; Paragraph" BulletsAndNumberingListType="BulletList" LeftIndent="10">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <TabList type="list">
-            <ListItem type="record">
-              <Alignment type="enumeration">LeftAlign</Alignment>
-              <AlignmentCharacter type="string">.</AlignmentCharacter>
-              <Leader type="string" />
-              <Position type="unit">20</Position>
-            </ListItem>
-          </TabList>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/BulList &gt; Paragraph" Name="BulList &gt; Paragraph" BulletsAndNumberingListType="BulletList" LeftIndent="0">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <TabList type="list">
-            <ListItem type="record">
-              <Alignment type="enumeration">LeftAlign</Alignment>
-              <AlignmentCharacter type="string">.</AlignmentCharacter>
-              <Leader type="string" />
-              <Position type="unit">10</Position>
-            </ListItem>
-          </TabList>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/BulList &gt; first" Name="BulList &gt; first" BulletsAndNumberingListType="BulletList" LeftIndent="0">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <TabList type="list">
-            <ListItem type="record">
-              <Alignment type="enumeration">LeftAlign</Alignment>
-              <AlignmentCharacter type="string">.</AlignmentCharacter>
-              <Leader type="string" />
-              <Position type="unit">10</Position>
-            </ListItem>
-          </TabList>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/BulList &gt; first &gt; Paragraph" Name="BulList &gt; first &gt; Paragraph" BulletsAndNumberingListType="BulletList" LeftIndent="0">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <TabList type="list">
-            <ListItem type="record">
-              <Alignment type="enumeration">LeftAlign</Alignment>
-              <AlignmentCharacter type="string">.</AlignmentCharacter>
-              <Leader type="string" />
-              <Position type="unit">10</Position>
-            </ListItem>
-          </TabList>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/Caption" Name="Caption" LeftIndent="0">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/CodeBlock" Name="CodeBlock" LeftIndent="0">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <AppliedFont type="string">Courier New</AppliedFont>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/DefListDef" Name="DefListDef" LeftIndent="10">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; Blockquote &gt; Paragraph" Name="DefListDef &gt; Blockquote &gt; Paragraph" LeftIndent="30">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; CodeBlock" Name="DefListDef &gt; CodeBlock" LeftIndent="10">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <AppliedFont type="string">Courier New</AppliedFont>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; NumList" Name="DefListDef &gt; NumList" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; NumList &gt; first" Name="DefListDef &gt; NumList &gt; first" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; Paragraph" Name="DefListDef &gt; Paragraph" LeftIndent="10">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/DefListTerm" Name="DefListTerm" LeftIndent="0" BulletsAndNumberingListType="BulletList" FontStyle="Bold">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/Figure" Name="Figure" LeftIndent="0">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/Footnote &gt; CodeBlock" Name="Footnote &gt; CodeBlock" LeftIndent="0">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <AppliedFont type="string">Courier New</AppliedFont>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/Footnote &gt; Paragraph" Name="Footnote &gt; Paragraph" LeftIndent="0">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/Header1" Name="Header1" LeftIndent="0" PointSize="36">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/Header2" Name="Header2" LeftIndent="0" PointSize="30">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/Header3" Name="Header3" LeftIndent="0" PointSize="24">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/Header4" Name="Header4" LeftIndent="0" PointSize="18">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/Header5" Name="Header5" LeftIndent="0" PointSize="14">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList" Name="NumList" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; BulList" Name="NumList &gt; BulList" BulletsAndNumberingListType="BulletList" LeftIndent="10">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <TabList type="list">
-            <ListItem type="record">
-              <Alignment type="enumeration">LeftAlign</Alignment>
-              <AlignmentCharacter type="string">.</AlignmentCharacter>
-              <Leader type="string" />
-              <Position type="unit">20</Position>
-            </ListItem>
-          </TabList>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; BulList &gt; first" Name="NumList &gt; BulList &gt; first" BulletsAndNumberingListType="BulletList" LeftIndent="10">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <TabList type="list">
-            <ListItem type="record">
-              <Alignment type="enumeration">LeftAlign</Alignment>
-              <AlignmentCharacter type="string">.</AlignmentCharacter>
-              <Leader type="string" />
-              <Position type="unit">20</Position>
-            </ListItem>
-          </TabList>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; NumList &gt; NumList &gt; first &gt; beginsWith-3 &gt; lowerAlpha" Name="NumList &gt; NumList &gt; NumList &gt; NumList &gt; first &gt; beginsWith-3 &gt; lowerAlpha" NumberingExpression="^#.^t" NumberingLevel="4" BulletsAndNumberingListType="NumberedList" LeftIndent="30">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <NumberingFormat type="string">a, b, c, d...</NumberingFormat>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; NumList &gt; first &gt; beginsWith-6" Name="NumList &gt; NumList &gt; NumList &gt; first &gt; beginsWith-6" NumberingExpression="^#.^t" NumberingLevel="3" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; NumList &gt; first &gt; upperAlpha" Name="NumList &gt; NumList &gt; NumList &gt; first &gt; upperAlpha" NumberingExpression="^#.^t" NumberingLevel="3" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <NumberingFormat type="string">A, B, C, D...</NumberingFormat>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; NumList &gt; upperAlpha" Name="NumList &gt; NumList &gt; NumList &gt; upperAlpha" NumberingExpression="^#.^t" NumberingLevel="3" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <NumberingFormat type="string">A, B, C, D...</NumberingFormat>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; beginsWith-4 &gt; lowerRoman" Name="NumList &gt; NumList &gt; beginsWith-4 &gt; lowerRoman" NumberingExpression="^#.^t" NumberingLevel="2" BulletsAndNumberingListType="NumberedList" LeftIndent="10">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <NumberingFormat type="string">i, ii, iii, iv...</NumberingFormat>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; first" Name="NumList &gt; NumList &gt; first" NumberingExpression="^#.^t" NumberingLevel="2" BulletsAndNumberingListType="NumberedList" LeftIndent="10">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; first &gt; beginsWith-4 &gt; lowerRoman" Name="NumList &gt; NumList &gt; first &gt; beginsWith-4 &gt; lowerRoman" NumberingExpression="^#.^t" NumberingLevel="2" BulletsAndNumberingListType="NumberedList" LeftIndent="10">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <NumberingFormat type="string">i, ii, iii, iv...</NumberingFormat>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; first &gt; upperRoman" Name="NumList &gt; NumList &gt; first &gt; upperRoman" NumberingExpression="^#.^t" NumberingLevel="2" BulletsAndNumberingListType="NumberedList" LeftIndent="10">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <NumberingFormat type="string">I, II, III, IV...</NumberingFormat>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; Paragraph" Name="NumList &gt; Paragraph" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; beginsWith-2 &gt; Paragraph" Name="NumList &gt; beginsWith-2 &gt; Paragraph" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; first" Name="NumList &gt; first" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; first &gt; Paragraph" Name="NumList &gt; first &gt; Paragraph" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; first &gt; beginsWith-2 &gt; Paragraph" Name="NumList &gt; first &gt; beginsWith-2 &gt; Paragraph" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; first &gt; upperAlpha" Name="NumList &gt; first &gt; upperAlpha" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-          <NumberingFormat type="string">A, B, C, D...</NumberingFormat>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/NumList &gt; subParagraph &gt; Paragraph" Name="NumList &gt; subParagraph &gt; Paragraph" NumberingExpression="^#.^t" NumberingLevel="1" LeftIndent="0">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle>
-      <ParagraphStyle Self="ParagraphStyle/Paragraph" Name="Paragraph" LeftIndent="0">
-        <Properties>
-          <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
-        </Properties>
-      </ParagraphStyle> 
-    </RootParagraphStyleGroup>
-    <RootTableStyleGroup Self="pandoc_table_styles">
-      <TableStyle Self="TableStyle/Table" Name="Table" />
-    </RootTableStyleGroup>
-    <RootCellStyleGroup Self="pandoc_cell_styles">
-      <CellStyle Self="CellStyle/Cell" AppliedParagraphStyle="ParagraphStyle/$ID/[No paragraph style]" Name="Cell" />
-    </RootCellStyleGroup>
+  <RootCharacterStyleGroup Self="pandoc_character_styles">
+    <CharacterStyle Self="$ID/NormalCharacterStyle" Name="Default" />
+    <CharacterStyle Self="CharacterStyle/" Name="">
+      <Properties>
+        <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
+      </Properties>
+    </CharacterStyle>
+    <CharacterStyle Self="CharacterStyle/Bold" Name="Bold" FontStyle="Bold">
+      <Properties>
+        <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
+      </Properties>
+    </CharacterStyle>
+    <CharacterStyle Self="CharacterStyle/Bold Italic" Name="Bold Italic" FontStyle="Bold Italic">
+      <Properties>
+        <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
+      </Properties>
+    </CharacterStyle>
+    <CharacterStyle Self="CharacterStyle/Code" Name="Code">
+      <Properties>
+        <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
+        <AppliedFont type="string">Courier New</AppliedFont>
+      </Properties>
+    </CharacterStyle>
+    <CharacterStyle Self="CharacterStyle/Italic" Name="Italic" FontStyle="Italic">
+      <Properties>
+        <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
+      </Properties>
+    </CharacterStyle>
+    <CharacterStyle Self="CharacterStyle/Italic Link" Name="Italic Link" FontStyle="Italic">
+      <Properties>
+        <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
+      </Properties>
+    </CharacterStyle>
+    <CharacterStyle Self="CharacterStyle/Italic Strikeout" Name="Italic Strikeout" FontStyle="Italic" StrikeThru="true">
+      <Properties>
+        <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
+      </Properties>
+    </CharacterStyle>
+    <CharacterStyle Self="CharacterStyle/Italic Superscript" Name="Italic Superscript" FontStyle="Italic" Position="Superscript">
+      <Properties>
+        <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
+      </Properties>
+    </CharacterStyle>
+    <CharacterStyle Self="CharacterStyle/Link" Name="Link">
+      <Properties>
+        <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
+      </Properties>
+    </CharacterStyle>
+    <CharacterStyle Self="CharacterStyle/Strikeout" Name="Strikeout" StrikeThru="true">
+      <Properties>
+        <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
+      </Properties>
+    </CharacterStyle>
+    <CharacterStyle Self="CharacterStyle/Subscript" Name="Subscript" Position="Subscript">
+      <Properties>
+        <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
+      </Properties>
+    </CharacterStyle>
+    <CharacterStyle Self="CharacterStyle/Superscript" Name="Superscript" Position="Superscript">
+      <Properties>
+        <BasedOn type="object">$ID/NormalCharacterStyle</BasedOn>
+      </Properties>
+    </CharacterStyle>
+  </RootCharacterStyleGroup>
+  <RootParagraphStyleGroup Self="pandoc_paragraph_styles">
+    <ParagraphStyle Self="$ID/NormalParagraphStyle" Name="$ID/NormalParagraphStyle"
+        SpaceBefore="6" SpaceAfter="6"> <!-- paragraph spacing -->
+      <Properties>
+        <TabList type="list">
+          <ListItem type="record">
+            <Alignment type="enumeration">LeftAlign</Alignment>
+            <AlignmentCharacter type="string">.</AlignmentCharacter>
+            <Leader type="string"></Leader>
+            <Position type="unit">10</Position> <!-- first tab stop -->
+          </ListItem>
+        </TabList>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/" Name="" LeftIndent="0">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/Blockquote &gt; Blockquote &gt; Paragraph" Name="Blockquote &gt; Blockquote &gt; Paragraph" LeftIndent="30">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/Blockquote &gt; CodeBlock" Name="Blockquote &gt; CodeBlock" LeftIndent="10">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        <AppliedFont type="string">Courier New</AppliedFont>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/Blockquote &gt; NumList" Name="Blockquote &gt; NumList" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/Blockquote &gt; NumList &gt; first" Name="Blockquote &gt; NumList &gt; first" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/Blockquote &gt; Paragraph" Name="Blockquote &gt; Paragraph" LeftIndent="10">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/BulList" Name="BulList" BulletsAndNumberingListType="BulletList" LeftIndent="0">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        <TabList type="list">
+          <ListItem type="record">
+            <Alignment type="enumeration">LeftAlign</Alignment>
+            <AlignmentCharacter type="string">.</AlignmentCharacter>
+            <Leader type="string" />
+            <Position type="unit">10</Position>
+          </ListItem>
+        </TabList>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/BulList &gt; BulList &gt; BulList &gt; first" Name="BulList &gt; BulList &gt; BulList &gt; first" BulletsAndNumberingListType="BulletList" LeftIndent="20">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        <TabList type="list">
+          <ListItem type="record">
+            <Alignment type="enumeration">LeftAlign</Alignment>
+            <AlignmentCharacter type="string">.</AlignmentCharacter>
+            <Leader type="string" />
+            <Position type="unit">30</Position>
+          </ListItem>
+        </TabList>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/BulList &gt; BulList &gt; Paragraph" Name="BulList &gt; BulList &gt; Paragraph" BulletsAndNumberingListType="BulletList" LeftIndent="10">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        <TabList type="list">
+          <ListItem type="record">
+            <Alignment type="enumeration">LeftAlign</Alignment>
+            <AlignmentCharacter type="string">.</AlignmentCharacter>
+            <Leader type="string" />
+            <Position type="unit">20</Position>
+          </ListItem>
+        </TabList>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/BulList &gt; BulList &gt; first" Name="BulList &gt; BulList &gt; first" BulletsAndNumberingListType="BulletList" LeftIndent="10">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        <TabList type="list">
+          <ListItem type="record">
+            <Alignment type="enumeration">LeftAlign</Alignment>
+            <AlignmentCharacter type="string">.</AlignmentCharacter>
+            <Leader type="string" />
+            <Position type="unit">20</Position>
+          </ListItem>
+        </TabList>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/BulList &gt; BulList &gt; first &gt; Paragraph" Name="BulList &gt; BulList &gt; first &gt; Paragraph" BulletsAndNumberingListType="BulletList" LeftIndent="10">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        <TabList type="list">
+          <ListItem type="record">
+            <Alignment type="enumeration">LeftAlign</Alignment>
+            <AlignmentCharacter type="string">.</AlignmentCharacter>
+            <Leader type="string" />
+            <Position type="unit">20</Position>
+          </ListItem>
+        </TabList>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/BulList &gt; Paragraph" Name="BulList &gt; Paragraph" BulletsAndNumberingListType="BulletList" LeftIndent="0">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        <TabList type="list">
+          <ListItem type="record">
+            <Alignment type="enumeration">LeftAlign</Alignment>
+            <AlignmentCharacter type="string">.</AlignmentCharacter>
+            <Leader type="string" />
+            <Position type="unit">10</Position>
+          </ListItem>
+        </TabList>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/BulList &gt; first" Name="BulList &gt; first" BulletsAndNumberingListType="BulletList" LeftIndent="0">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        <TabList type="list">
+          <ListItem type="record">
+            <Alignment type="enumeration">LeftAlign</Alignment>
+            <AlignmentCharacter type="string">.</AlignmentCharacter>
+            <Leader type="string" />
+            <Position type="unit">10</Position>
+          </ListItem>
+        </TabList>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/BulList &gt; first &gt; Paragraph" Name="BulList &gt; first &gt; Paragraph" BulletsAndNumberingListType="BulletList" LeftIndent="0">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        <TabList type="list">
+          <ListItem type="record">
+            <Alignment type="enumeration">LeftAlign</Alignment>
+            <AlignmentCharacter type="string">.</AlignmentCharacter>
+            <Leader type="string" />
+            <Position type="unit">10</Position>
+          </ListItem>
+        </TabList>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/Caption" Name="Caption" LeftIndent="0">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/CodeBlock" Name="CodeBlock" LeftIndent="0">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        <AppliedFont type="string">Courier New</AppliedFont>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/DefListDef" Name="DefListDef" LeftIndent="10">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; Blockquote &gt; Paragraph" Name="DefListDef &gt; Blockquote &gt; Paragraph" LeftIndent="30">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; CodeBlock" Name="DefListDef &gt; CodeBlock" LeftIndent="10">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        <AppliedFont type="string">Courier New</AppliedFont>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; NumList" Name="DefListDef &gt; NumList" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; NumList &gt; first" Name="DefListDef &gt; NumList &gt; first" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/DefListDef &gt; Paragraph" Name="DefListDef &gt; Paragraph" LeftIndent="10">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/DefListTerm" Name="DefListTerm" LeftIndent="0" BulletsAndNumberingListType="BulletList" FontStyle="Bold">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/Figure" Name="Figure" LeftIndent="0">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/Footnote &gt; CodeBlock" Name="Footnote &gt; CodeBlock" LeftIndent="0">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        <AppliedFont type="string">Courier New</AppliedFont>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/Footnote &gt; Paragraph" Name="Footnote &gt; Paragraph" LeftIndent="0">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/Header1" Name="Header1" LeftIndent="0" PointSize="36">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/Header2" Name="Header2" LeftIndent="0" PointSize="30">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/Header3" Name="Header3" LeftIndent="0" PointSize="24">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/Header4" Name="Header4" LeftIndent="0" PointSize="18">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/Header5" Name="Header5" LeftIndent="0" PointSize="14">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/NumList" Name="NumList" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/NumList &gt; BulList" Name="NumList &gt; BulList" BulletsAndNumberingListType="BulletList" LeftIndent="10">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        <TabList type="list">
+          <ListItem type="record">
+            <Alignment type="enumeration">LeftAlign</Alignment>
+            <AlignmentCharacter type="string">.</AlignmentCharacter>
+            <Leader type="string" />
+            <Position type="unit">20</Position>
+          </ListItem>
+        </TabList>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/NumList &gt; BulList &gt; first" Name="NumList &gt; BulList &gt; first" BulletsAndNumberingListType="BulletList" LeftIndent="10">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        <TabList type="list">
+          <ListItem type="record">
+            <Alignment type="enumeration">LeftAlign</Alignment>
+            <AlignmentCharacter type="string">.</AlignmentCharacter>
+            <Leader type="string" />
+            <Position type="unit">20</Position>
+          </ListItem>
+        </TabList>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; NumList &gt; NumList &gt; first &gt; beginsWith-3 &gt; lowerAlpha" Name="NumList &gt; NumList &gt; NumList &gt; NumList &gt; first &gt; beginsWith-3 &gt; lowerAlpha" NumberingExpression="^#.^t" NumberingLevel="4" BulletsAndNumberingListType="NumberedList" LeftIndent="30">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        <NumberingFormat type="string">a, b, c, d...</NumberingFormat>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; NumList &gt; first &gt; beginsWith-6" Name="NumList &gt; NumList &gt; NumList &gt; first &gt; beginsWith-6" NumberingExpression="^#.^t" NumberingLevel="3" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; NumList &gt; first &gt; upperAlpha" Name="NumList &gt; NumList &gt; NumList &gt; first &gt; upperAlpha" NumberingExpression="^#.^t" NumberingLevel="3" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        <NumberingFormat type="string">A, B, C, D...</NumberingFormat>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; NumList &gt; upperAlpha" Name="NumList &gt; NumList &gt; NumList &gt; upperAlpha" NumberingExpression="^#.^t" NumberingLevel="3" BulletsAndNumberingListType="NumberedList" LeftIndent="20">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        <NumberingFormat type="string">A, B, C, D...</NumberingFormat>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; beginsWith-4 &gt; lowerRoman" Name="NumList &gt; NumList &gt; beginsWith-4 &gt; lowerRoman" NumberingExpression="^#.^t" NumberingLevel="2" BulletsAndNumberingListType="NumberedList" LeftIndent="10">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        <NumberingFormat type="string">i, ii, iii, iv...</NumberingFormat>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; first" Name="NumList &gt; NumList &gt; first" NumberingExpression="^#.^t" NumberingLevel="2" BulletsAndNumberingListType="NumberedList" LeftIndent="10">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; first &gt; beginsWith-4 &gt; lowerRoman" Name="NumList &gt; NumList &gt; first &gt; beginsWith-4 &gt; lowerRoman" NumberingExpression="^#.^t" NumberingLevel="2" BulletsAndNumberingListType="NumberedList" LeftIndent="10">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        <NumberingFormat type="string">i, ii, iii, iv...</NumberingFormat>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/NumList &gt; NumList &gt; first &gt; upperRoman" Name="NumList &gt; NumList &gt; first &gt; upperRoman" NumberingExpression="^#.^t" NumberingLevel="2" BulletsAndNumberingListType="NumberedList" LeftIndent="10">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        <NumberingFormat type="string">I, II, III, IV...</NumberingFormat>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/NumList &gt; Paragraph" Name="NumList &gt; Paragraph" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/NumList &gt; beginsWith-2 &gt; Paragraph" Name="NumList &gt; beginsWith-2 &gt; Paragraph" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/NumList &gt; first" Name="NumList &gt; first" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/NumList &gt; first &gt; Paragraph" Name="NumList &gt; first &gt; Paragraph" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/NumList &gt; first &gt; beginsWith-2 &gt; Paragraph" Name="NumList &gt; first &gt; beginsWith-2 &gt; Paragraph" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/NumList &gt; first &gt; upperAlpha" Name="NumList &gt; first &gt; upperAlpha" NumberingExpression="^#.^t" NumberingLevel="1" BulletsAndNumberingListType="NumberedList" LeftIndent="0">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+        <NumberingFormat type="string">A, B, C, D...</NumberingFormat>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/NumList &gt; subParagraph &gt; Paragraph" Name="NumList &gt; subParagraph &gt; Paragraph" NumberingExpression="^#.^t" NumberingLevel="1" LeftIndent="0">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+    <ParagraphStyle Self="ParagraphStyle/Paragraph" Name="Paragraph" LeftIndent="0">
+      <Properties>
+        <BasedOn type="object">$ID/NormalParagraphStyle</BasedOn>
+      </Properties>
+    </ParagraphStyle>
+  </RootParagraphStyleGroup>
+  <RootTableStyleGroup Self="pandoc_table_styles">
+    <TableStyle Self="TableStyle/Table" Name="Table" />
+  </RootTableStyleGroup>
+  <RootCellStyleGroup Self="pandoc_cell_styles">
+    <CellStyle Self="CellStyle/Cell" AppliedParagraphStyle="ParagraphStyle/$ID/[No paragraph style]" Name="Cell" />
+  </RootCellStyleGroup>
   <Story Self="pandoc_story"
       TrackChanges="false"
       StoryTitle=""
