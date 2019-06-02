@@ -267,25 +267,25 @@ charStylesToDoc st = vcat $ map makeStyle $ Set.toAscList $ inlineStyles st
 
 -- | Escape colon characters as %3a
 escapeColons :: String -> String
-escapeColons (x:xs)
-  | x == ':' = "%3a" ++ escapeColons xs
-  | otherwise = x : escapeColons xs
-escapeColons []     = []
+escapeColons = concatMap repl
+  where
+    repl ':' = "%3a"
+    repl c = [c]
 
 -- | Convert a list of (identifier, url) pairs to the ICML listing of hyperlinks.
 hyperlinksToDoc :: Hyperlink -> Doc
-hyperlinksToDoc []     = empty
-hyperlinksToDoc (x:xs) = hyp x $$ hyperlinksToDoc xs
+hyperlinksToDoc = vcat . map hyp
   where
     hyp (ident, url) = hdest $$ hlink
       where
         hdest = selfClosingTag "HyperlinkURLDestination"
-                  [("Self", "HyperlinkURLDestination/"++escapeColons url), ("Name","link"), ("DestinationURL",url), ("DestinationUniqueKey","1")] -- HyperlinkURLDestination with more than one colon crashes CS6
+                  -- HyperlinkURLDestination with more than one colon crashes CS6, so we use `escapeColons` below
+                  [("Self", "HyperlinkURLDestination/"++escapeColons url), ("Name","link"), ("DestinationURL",url), ("DestinationUniqueKey","1")]
         hlink = inTags True "Hyperlink" [("Self","uf-"++show ident),  ("Name",url),
                     ("Source","htss-"++show ident), ("Visible","true"), ("DestinationUniqueKey","1")]
                   $ inTags True "Properties" []
                   $ inTags False "BorderColor" [("type","enumeration")] (text "Black")
-                  $$ inTags False "Destination" [("type","object")] (text $ "HyperlinkURLDestination/"++escapeColons (escapeStringForXML url)) -- HyperlinkURLDestination with more than one colon crashes CS6
+                  $$ inTags False "Destination" [("type","object")] (text $ "HyperlinkURLDestination/"++escapeColons (escapeStringForXML url))
 
 -- | Key for specifying user-defined styles
 dynamicStyleKey :: String
